@@ -1,5 +1,3 @@
-![VSCode](https://github.com/OpenNuvoton/CM2052BSP/actions/workflows/VSCode.yml/badge.svg)
-
 # CM2052 Series CMSIS BSP
 
 To experience the powerful features of CM2052 series in few minutes, please select the sample code to download and execute on their NuMaker boards. Open the project files to build them with Keil® MDK, IAR, NuEclipse or VS Code, and then download and trace them on the NuMaker board to see how it works.
@@ -28,17 +26,11 @@ To experience the powerful features of CM2052 series in few minutes, please sele
 - Device<br>
 	CMSIS compliant device header file.
 
-- LCDLib<br>
-	Library for controlling LCD module.
-
 - SmartcardLib<br>
 	Smart card library binary and header file.
 
 - StdDriver<br>
 	All peripheral driver header and source files.
-
-- TKLib<br>
-	Library for controlling touch key module.
 
 
 ## .\Sample Code\
@@ -63,15 +55,6 @@ To experience the powerful features of CM2052 series in few minutes, please sele
 - Level1_Training<br>
 	Level 1 training sample code.
 
-- NuMaker-M256SD<br>
-	Sample code for NuMaker-M256SD board.
-
-- NuMaker-M258KE<br>
-	Sample code for NuMaker-M258KE board.
-
-- NuMaker-M258KG<br>
-	Sample code for NuMaker-M258KG board.
-
 - PowerManagement<br>
 	Power management sample code.
 
@@ -92,13 +75,6 @@ To experience the powerful features of CM2052 series in few minutes, please sele
 
 - FreeRTOS<br>
 	FreeRTOS porting for CM2052 series MCU.
-
-
-## .\Tool\
-
-- TK<br>
-	Touch key tool.
-
 
 # License
 
