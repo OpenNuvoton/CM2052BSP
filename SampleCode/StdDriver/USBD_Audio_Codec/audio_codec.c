@@ -2,8 +2,8 @@
  * @file     audio_codec.c
  * @brief    Audio Codec setting.
  *
- * @copyright SPDX-License-Identifier: Apache-2.0
- * @copyright Copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include <stdio.h>
 #include "NuMicro.h"
@@ -198,7 +198,7 @@ void AdjustCodecPll(RESAMPLE_STATE_T r)
         {0x01F, 0x076, 0x191}    // * .995 = 7.488
     };
     static RESAMPLE_STATE_T current = E_RS_NONE;
-    int i, s;
+    int i, s = 0;
 
     if (r == current)
         return;
@@ -511,7 +511,7 @@ void AdjustCodecPll(RESAMPLE_STATE_T r)
     static uint16_t tb1[3] = {0x86C2, 0x9062, 0x7D1B};
 
     static RESAMPLE_STATE_T current = E_RS_NONE;
-    int s;
+    int s = 0;
 
     if (r == current)
         return;

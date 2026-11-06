@@ -1,6 +1,6 @@
 /******************************************************************************
  * @file     massstorage.h
- * @brief    CM2052 series USB mass storage header file
+ * @brief    M252 series USB mass storage header file
  *
  * @note
  * SPDX-License-Identifier: Apache-2.0
@@ -10,7 +10,7 @@
 #ifndef __USBD_MASS_H__
 #define __USBD_MASS_H__
 
-#include "usbd_user.h"
+#include "usbd_User.h"
 #include "DataFlashProg.h"
 
 #define CYCLE_PER_SEC (__HIRC/1000000)
@@ -93,7 +93,7 @@ static __INLINE uint32_t get_be32(uint8_t *buf)
 /*                USBD Mass Storage Structure                                 */
 /******************************************************************************/
 /** @addtogroup M252_USBD_Mass_Exported_Struct M252 USBD Mass Exported Struct
-  CM2052 USBD Mass Specific Struct
+  M252 USBD Mass Specific Struct
   @{
 */
 

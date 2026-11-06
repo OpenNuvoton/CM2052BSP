@@ -1,7 +1,7 @@
 /******************************************************************************//**
  * @file     DataFlashProg.c
  * @version  V1.00
- * @brief    CM2052 Series Data Flash Access API
+ * @brief    M252 Series Data Flash Access API
  *
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
@@ -10,7 +10,7 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /* Includes of system headers                                                                              */
 /*---------------------------------------------------------------------------------------------------------*/
-#include "cm2052_user.h"
+#include "CM2052_User.h"
 #include "DataFlashProg.h"
 #include "massstorage.h"
 

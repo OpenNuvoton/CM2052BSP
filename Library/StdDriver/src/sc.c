@@ -36,7 +36,7 @@ static uint32_t u32CardStateIgnore[SC_INTERFACE_NUM] = {0UL};
   *
   * @details    This function is used to check if specified smartcard slot is presented.
   */
-uint32_t SC_IsCardInserted(SC_T *psSC)
+uint32_t SC_IsCardInserted(const SC_T *psSC)
 {
     uint32_t ret;
 
@@ -123,28 +123,19 @@ void SC_Close(SC_T *psSC)
   */
 void SC_Open(SC_T *psSC, uint32_t u32CardDet, uint32_t u32PWR)
 {
-    uint32_t u32Reg = 0UL, u32Intf;
-
-    if (psSC == SC0)
-    {
-        u32Intf = 0UL;
-    }
-    else
-    {
-        u32Intf = 2UL;
-    }
+    uint32_t u32Reg = 0UL;
 
     if (u32CardDet != SC_PIN_STATE_IGNORE)
     {
-        u32Reg = u32CardDet ? 0UL : SC_CTL_CDLV_Msk;
-        u32CardStateIgnore[u32Intf] = 0UL;
+        u32Reg = (u32CardDet != 0UL) ? 0UL : SC_CTL_CDLV_Msk;
+        u32CardStateIgnore[0] = 0UL;
     }
     else
     {
-        u32CardStateIgnore[u32Intf] = 1UL;
+        u32CardStateIgnore[0] = 1UL;
     }
 
-    psSC->PINCTL = u32PWR ? 0UL : SC_PINCTL_PWRINV_Msk;
+    psSC->PINCTL = (u32PWR != 0UL) ? 0UL : SC_PINCTL_PWRINV_Msk;
 
     while (psSC->CTL & SC_CTL_SYNC_Msk)
     {
@@ -164,17 +155,6 @@ void SC_Open(SC_T *psSC, uint32_t u32CardDet, uint32_t u32PWR)
   */
 void SC_ResetReader(SC_T *psSC)
 {
-    uint32_t u32Intf;
-
-    if (psSC == SC0)
-    {
-        u32Intf = 0UL;
-    }
-    else
-    {
-        u32Intf = 2UL;
-    }
-
     /* Reset FIFO, enable auto de-activation while card removal */
     psSC->ALTCTL |= (SC_ALTCTL_TXRST_Msk | SC_ALTCTL_RXRST_Msk | SC_ALTCTL_ADACEN_Msk);
 
@@ -204,7 +184,7 @@ void SC_ResetReader(SC_T *psSC)
     psSC->ETUCTL = 371UL;
 
     /* Enable necessary interrupt for smartcard operation */
-    if (u32CardStateIgnore[u32Intf])   /* Do not enable card detect interrupt if card present state ignore */
+    if (u32CardStateIgnore[0] != 0UL)   /* Do not enable card detect interrupt if card present state ignore */
     {
         psSC->INTEN = (SC_INTEN_RDAIEN_Msk |
                        SC_INTEN_TERRIEN_Msk |
@@ -255,9 +235,10 @@ void SC_SetBlockGuardTime(SC_T *psSC, uint32_t u32BGT)
   */
 void SC_SetCharGuardTime(SC_T *psSC, uint32_t u32CGT)
 {
+    uint32_t u32CGT_Tamp = u32CGT;
     /* CGT is "START bit" + "8-bits" + "Parity bit" + "STOP bit(s)" + "EGT counts" */
-    u32CGT -= (psSC->CTL & SC_CTL_NSB_Msk) ? 11UL : 12UL;
-    psSC->EGT = u32CGT;
+    u32CGT_Tamp -= ((psSC->CTL & SC_CTL_NSB_Msk) != 0UL) ? 11UL : 12UL;
+    psSC->EGT = u32CGT_Tamp;
 }
 
 /**
@@ -308,7 +289,7 @@ void SC_StartTimer(SC_T *psSC, uint32_t u32TimerNum, uint32_t u32Mode, uint32_t 
     uint32_t reg = u32Mode | (SC_TMRCTL0_CNT_Msk & (u32ETUCount - 1UL));
 
     /* before to set CNTEN0/1/2 of reg. ALTCTL, SCEN bit must be enabled */
-    if (u32TimerNum <= 2)
+    if (u32TimerNum <= 2UL)
     {
         while (psSC->CTL & SC_CTL_SYNC_Msk) {};
 
@@ -390,14 +371,15 @@ void SC_StopTimer(SC_T *psSC, uint32_t u32TimerNum)
   *
   * @details    This function is used to get specified smartcard module clock frequency in kHz.
   */
-uint32_t SC_GetInterfaceClock(SC_T *psSC)
+uint32_t SC_GetInterfaceClock(const SC_T *psSC)
 {
-    uint32_t u32ClkSrc, u32Num, u32Clk = __HIRC, u32Div;
+    uint32_t u32ClkSrc = 0UL;
+    uint32_t u32Clk = __HIRC;
+    uint32_t u32Div = 0UL;
 
     /* Get smartcard module clock source and divider */
     if (psSC == SC0)
     {
-        u32Num = 0UL;
         u32ClkSrc = CLK_GetModuleClockSource(SC0_MODULE);
         u32Div = CLK_GetModuleClockDivider(SC0_MODULE);
         //  u32ClkSrc = __HXT;
@@ -425,14 +407,7 @@ uint32_t SC_GetInterfaceClock(SC_T *psSC)
         }
         else if (u32ClkSrc == 2UL)
         {
-            if (u32Num == 1UL)
-            {
-                u32Clk = CLK_GetPCLK1Freq();
-            }
-            else
-            {
-                u32Clk = CLK_GetPCLK0Freq();
-            }
+            u32Clk = CLK_GetPCLK0Freq();
         }
         else
         {

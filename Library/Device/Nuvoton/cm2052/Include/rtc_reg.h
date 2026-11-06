@@ -84,7 +84,7 @@ typedef struct
      * |        |           |11101 = Integer part of detected value is 32781.
      * |        |           |11110 = Integer part of detected value is 32782.
      * |        |           |11111 = Integer part of detected value is 32783.
-     * |[31]    |FCRBUSY    |Frequency Compensation Register Write Operation Busy (Read Only) (only for CM2052Ex)
+     * |[31]    |FCRBUSY    |Frequency Compensation Register Write Operation Busy (Read Only) (only for M252_C/E)
      * |        |           |0 = The new register write operation is acceptable.
      * |        |           |1 = The last write operation is in progress and new register write operation prohibited.
      * |        |           |Note: This bit is only used when DCOMPEN(RTC_CLKFMT[16]) enabled.
@@ -121,7 +121,7 @@ typedef struct
      * |        |           |Indicates that RTC_TIME and RTC_TALM are in 24-hour time scale or 12-hour time scale.
      * |        |           |0 = 12-hour time scale with AM and PM indication selected.
      * |        |           |1 = 24-hour time scale selected.
-     * |[16]    |DCOMPEN    |Dynamic Compensation Enable Bit (only for CM2052Ex)
+     * |[16]    |DCOMPEN    |Dynamic Compensation Enable Bit (only for M252_C/E)
      * |        |           |0 = Dynamic Compensation Disabled.
      * |        |           |1 = Dynamic Compensation Enabled.
      * @var RTC_T::WEEKDAY

@@ -1,6 +1,6 @@
 /******************************************************************************
  * @file     usbd_user.h
- * @brief    CM2052 series USB driver header file
+ * @brief    M252 series USB driver header file
  *
  * @note
  * SPDX-License-Identifier: Apache-2.0
@@ -375,7 +375,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Stop USB transaction of the specified endpoint ID
   *
-  * @param[in]  ep The USB endpoint ID. CM2052 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. M252 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return     None
   *
@@ -387,7 +387,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Set USB DATA1 PID for the specified endpoint ID
   *
-  * @param[in]  ep The USB endpoint ID. CM2052 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. M252 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return     None
   *
@@ -400,7 +400,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Set USB DATA0 PID for the specified endpoint ID
   *
-  * @param[in]  ep The USB endpoint ID. CM2052 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. M252 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return     None
   *
@@ -413,7 +413,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Set USB payload size (IN data)
   *
-  * @param[in]  ep The USB endpoint ID. CM2052 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. M252 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @param[in]  size The transfer length.
   *
@@ -427,7 +427,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Get USB payload size (OUT data)
   *
-  * @param[in]  ep The USB endpoint ID. CM2052 Series supports 8 endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. M252 Series supports 8 endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return     The value of USB_MXPLDx register.
   *
@@ -439,7 +439,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Configure endpoint
   *
-  * @param[in]  ep The USB endpoint ID. CM2052 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. M252 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @param[in]  config The USB configuration.
   *
@@ -453,7 +453,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Set USB endpoint buffer
   *
-  * @param[in]  ep The USB endpoint ID. CM2052 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. M252 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @param[in]  offset The SRAM offset.
   *
@@ -467,7 +467,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief      Get the offset of the specified USB endpoint buffer
   *
-  * @param[in]  ep The USB endpoint ID. CM2052 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]  ep The USB endpoint ID. M252 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return     The offset of the specified endpoint buffer.
   *
@@ -479,7 +479,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief       Set USB endpoint stall state
   *
-  * @param[in]   ep  The USB endpoint ID. CM2052 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]   ep  The USB endpoint ID. M252 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return      None
   *
@@ -491,7 +491,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief       Clear USB endpoint stall state
   *
-  * @param[in]   ep  The USB endpoint ID. CM2052 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]   ep  The USB endpoint ID. M252 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @return      None
   *
@@ -502,7 +502,7 @@ extern const S_USBD_INFO_T gsInfo;
 /**
   * @brief       Get USB endpoint stall state
   *
-  * @param[in]   ep  The USB endpoint ID. CM2052 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
+  * @param[in]   ep  The USB endpoint ID. M252 Series supports 8 hardware endpoint ID. This parameter could be 0 ~ 7.
   *
   * @retval      0      USB endpoint is not stalled.
   * @retval      Others USB endpoint is stalled.
@@ -551,14 +551,14 @@ static __INLINE void USBD_SetStall(uint8_t epnum)
     for (i = 0; i < USBD_MAX_EP; i++)
     {
         u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFG; /* USBD_CFG0 */
-        u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
+        u32Cfg = inp32(u32CfgAddr);
 
         if ((u32Cfg & 0xf) == epnum)
         {
             u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFGP; /* USBD_CFGP0 */
-            u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
+            u32Cfg = inp32(u32CfgAddr);
 
-            *((__IO uint32_t *)(u32CfgAddr)) = (u32Cfg | USBD_CFGP_SSTALL);
+            outp32(u32CfgAddr, (u32Cfg | USBD_CFGP_SSTALL));
             break;
         }
     }
@@ -582,14 +582,14 @@ static __INLINE void USBD_ClearStall(uint8_t epnum)
     for (i = 0; i < USBD_MAX_EP; i++)
     {
         u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFG; /* USBD_CFG0 */
-        u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
+        u32Cfg = inp32(u32CfgAddr);
 
         if ((u32Cfg & 0xf) == epnum)
         {
             u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFGP; /* USBD_CFGP0 */
-            u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
+            u32Cfg = inp32(u32CfgAddr);
 
-            *((__IO uint32_t *)(u32CfgAddr)) = (u32Cfg & ~USBD_CFGP_SSTALL);
+            outp32(u32CfgAddr, (u32Cfg & ~USBD_CFGP_SSTALL));
             break;
         }
     }
@@ -608,14 +608,14 @@ static __INLINE void USBD_ClearStall(uint8_t epnum)
   */
 static __INLINE uint32_t USBD_GetStall(uint8_t epnum)
 {
-    uint32_t u32CfgAddr;
+    uint32_t u32CfgAddr = (uint32_t)&USBD->EP[0].CFG;;
     uint32_t u32Cfg;
     int i;
 
     for (i = 0; i < USBD_MAX_EP; i++)
     {
         u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFG; /* USBD_CFG0 */
-        u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
+        u32Cfg = inp32(u32CfgAddr);
 
         if ((u32Cfg & 0xf) == epnum)
         {
@@ -624,7 +624,7 @@ static __INLINE uint32_t USBD_GetStall(uint8_t epnum)
         }
     }
 
-    return ((*((__IO uint32_t *)(u32CfgAddr))) & USBD_CFGP_SSTALL);
+    return (inp32(u32CfgAddr) & USBD_CFGP_SSTALL);
 }
 
 

@@ -101,7 +101,7 @@
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
         <bEvRecOn>1</bEvRecOn>
-        <nTsel>19</nTsel>
+        <nTsel>7</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -112,7 +112,7 @@
         <tDlgDll></tDlgDll>
         <tDlgPa></tDlgPa>
         <tIfile></tIfile>
-        <pMon>Bin\Nu_Link.dll</pMon>
+        <pMon>NULink\Nu_Link.dll</pMon>
       </DebugOpt>
       <TargetDriverDllRegistry>
         <SetRegEntry>
@@ -211,8 +211,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Library\Device\Nuvoton\cm2052\Source\system_cm2052.c</PathWithFileName>
-      <FilenameWithoutPath>system_cm2052.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\..\..\Library\Device\Nuvoton\CM2052\Source\system_CM2052.c</PathWithFileName>
+      <FilenameWithoutPath>system_CM2052.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -223,8 +223,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Library\Device\Nuvoton\cm2052\Source\ARM\startup_cm2052.c</PathWithFileName>
-      <FilenameWithoutPath>startup_cm2052.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\..\..\Library\Device\Nuvoton\CM2052\Source\ARM\startup_CM2052.c</PathWithFileName>
+      <FilenameWithoutPath>startup_CM2052.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -8,7 +8,7 @@ project:
     - setup: Options for SPISlaveFIFOMode
       add-path:
         - ../../../../Library/CMSIS/Core/Include
-        - ../../../../Library/Device/Nuvoton/cm2052/Include
+        - ../../../../Library/Device/Nuvoton/CM2052/Include
         - ../../../../Library/StdDriver/inc
       misc:
         - for-compiler: AC6
@@ -20,6 +20,8 @@ project:
           Link:
             - --library_type=microlib --map --load_addr_map_info --symbols
             - --info sizes --info totals --strict --summary_stderr --info summarysizes
+          C-CPP:
+            - -Wconditional-uninitialized
         - for-compiler: GCC
           C:
             - -std=gnu11 -mthumb -masm-syntax-unified -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections
@@ -27,20 +29,22 @@ project:
             - -mthumb -fmessage-length=0 -fsigned-char --specs=nano.specs --specs=nosys.specs
             - -Wl,--gc-sections,-Map="$elf()$.map"
             - -Wl,--no-warn-rwx-segments
+          C-CPP:
+            - -Wmaybe-uninitialized
   linker:
-    - script: ../../../../Library/Device/Nuvoton/cm2052/Source/ARM/APROM.sct
+    - script: ../../../../Library/Device/Nuvoton/CM2052/Source/ARM/APROM.scf
       for-compiler: AC6
-    - script: ../../../../Library/Device/Nuvoton/cm2052/Source/GCC/gcc_arm.ld
+    - script: ../../../../Library/Device/Nuvoton/CM2052/Source/GCC/gcc_arm.ld
       for-compiler: GCC
   groups:
     - group: CMSIS
       files:
-        - file: ../../../../Library/Device/Nuvoton/cm2052/Source/system_cm2052.c
-        - file: ../../../../Library/Device/Nuvoton/cm2052/Source/ARM/startup_cm2052.c
+        - file: ../../../../Library/Device/Nuvoton/CM2052/Source/system_CM2052.c
+        - file: ../../../../Library/Device/Nuvoton/CM2052/Source/ARM/startup_CM2052.c
           for-compiler: AC6
-        - file: ../../../../Library/Device/Nuvoton/cm2052/Source/GCC/startup_cm2052.S
+        - file: ../../../../Library/Device/Nuvoton/CM2052/Source/GCC/startup_CM2052.S
           for-compiler: GCC
-        - file: ../../../../Library/Device/Nuvoton/cm2052/Source/GCC/_syscalls.c
+        - file: ../../../../Library/Device/Nuvoton/CM2052/Source/GCC/_syscalls.c
           for-compiler: GCC
     - group: User
       files:

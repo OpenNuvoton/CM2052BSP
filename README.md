@@ -1,3 +1,6 @@
+![Eclipse](https://github.com/OpenNuvoton/M251BSP/actions/workflows/Eclipse.yml/badge.svg)
+![VSCode](https://github.com/OpenNuvoton/M251BSP/actions/workflows/VSCode.yml/badge.svg)
+
 # CM2052 Series CMSIS BSP
 
 To experience the powerful features of CM2052 series in few minutes, please select the sample code to download and execute on their NuMaker boards. Open the project files to build them with Keil® MDK, IAR, NuEclipse or VS Code, and then download and trace them on the NuMaker board to see how it works.
@@ -5,33 +8,35 @@ To experience the powerful features of CM2052 series in few minutes, please sele
 
 ## .\Document\
 
+- SBOM<br>
+	Scopes and component evidence of Product SBOM and Test Sample SBOM.
+
 - CMSIS.html<br>
-	Document of CMSIS version 6.1.0.
+	Document of CMSIS.
 
 - NuMicro CM2052 Series CMSIS BSP Driver Reference Guide.chm<br>
-	This document describes the usage of drivers in CM2052 BSP.
+	This document describes the usage of drivers in CM2052 Series BSP.
 
 - NuMicro CM2052 Series CMSIS BSP Revision History.pdf<br>
-	This document shows the revision history of CM2052 BSP.
+	This document shows the revision history of CM2052 Series BSP.
 
-- VSCode Quick Start Guide.pdf<br>
-	This documents guide to install, configure and use VS Code.
+- VS Code Quick Start Guide
+	This document guides to install, configure and use VS Code.
 
 
 ## .\Library\
 
 - CMSIS<br>
-	Cortex® Microcontroller Software Interface Standard (CMSIS) V6.1.0 definitions by Arm® Corp.
+	Cortex® Microcontroller Software Interface Standard (CMSIS) definitions  and CMSIS-Compiler software components by Arm® Corp.
 
 - Device<br>
-	CMSIS compliant device header file.
+	CMSIS compliant device header files.
 
 - SmartcardLib<br>
 	Smart card library binary and header file.
 
 - StdDriver<br>
 	All peripheral driver header and source files.
-
 
 ## .\Sample Code\
 
@@ -56,7 +61,7 @@ To experience the powerful features of CM2052 series in few minutes, please sele
 	Level 1 training sample code.
 
 - PowerManagement<br>
-	Power management sample code.
+	Sample code for power management.
 
 - Semihost<br>
 	Show how to print and get character through IDE console window.
@@ -65,7 +70,7 @@ To experience the powerful features of CM2052 series in few minutes, please sele
 	Sample code to demonstrate the usage of CM2052 series MCU peripheral driver APIs.
 
 - Template<br>
-	A project template for CM2052 series MCU.
+	Project template for CM2052 series MCU.
 
 - XOM<br>
 	Demonstrate how to create XOM library and use it.
@@ -74,7 +79,11 @@ To experience the powerful features of CM2052 series in few minutes, please sele
 ## .\ThirdParty\
 
 - FreeRTOS<br>
-	FreeRTOS porting for CM2052 series MCU.
+	Real-time operating system for microcontrollers.
+
+
+## .\Tool\
+
 
 # License
 
@@ -82,4 +91,4 @@ To experience the powerful features of CM2052 series in few minutes, please sele
 
 Copyright in some of the content available in this BSP belongs to third parties.
 Third parties license is specified in a file header or license file.<p>
-CM2052 BSP files are provided under the Apache-2.0 license.
+CM2052 Series BSP files are provided under the Apache-2.0 license.

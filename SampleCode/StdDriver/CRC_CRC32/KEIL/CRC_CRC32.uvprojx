@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>CM2052EN8AE</Device>
           <Vendor>Nuvoton</Vendor>
-          <PackID>Nuvoton.NuMicroCM23_DFP.1.0.3</PackID>
+          <PackID>Nuvoton.NuMicroCM23_DFP.1.0.4</PackID>
           <PackURL>https://github.com/OpenNuvoton/cmsis-packs/raw/master/Nuvoton_DFP/</PackURL>
           <Cpu>IRAM(0x20000000,0x4000) IROM(0x00000000,0x20000) IROM2(0x00100000,0x1000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -335,10 +335,10 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls></MiscControls>
+              <MiscControls>-Wconditional-uninitialized</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Library\CMSIS\Core\Include;..\..\..\..\Library\Device\Nuvoton\cm2052\Include;..\..\..\..\Library\StdDriver\inc</IncludePath>
+              <IncludePath>..\..\..\..\Library\CMSIS\Core\Include;..\..\..\..\Library\Device\Nuvoton\CM2052\Include;..\..\..\..\Library\StdDriver\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -369,7 +369,7 @@
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>..\..\..\..\Library\Device\Nuvoton\cm2052\Source\ARM\APROM.sct</ScatterFile>
+            <ScatterFile>..\..\..\..\Library\Device\Nuvoton\CM2052\Source\ARM\APROM.scf</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -383,14 +383,14 @@
           <GroupName>CMSIS</GroupName>
           <Files>
             <File>
-              <FileName>system_cm2052.c</FileName>
+              <FileName>system_CM2052.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Library\Device\Nuvoton\cm2052\Source\system_cm2052.c</FilePath>
+              <FilePath>..\..\..\..\Library\Device\Nuvoton\CM2052\Source\system_CM2052.c</FilePath>
             </File>
             <File>
-              <FileName>startup_cm2052.c</FileName>
+              <FileName>startup_CM2052.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Library\Device\Nuvoton\cm2052\Source\ARM\startup_cm2052.c</FilePath>
+              <FilePath>..\..\..\..\Library\Device\Nuvoton\CM2052\Source\ARM\startup_CM2052.c</FilePath>
             </File>
           </Files>
         </Group>

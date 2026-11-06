@@ -7,7 +7,7 @@
  * @copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 
-#include "cm2052_user.h"
+#include "CM2052_User.h"
 #include "massstorage.h"
 
 #define DetectPin           PA0

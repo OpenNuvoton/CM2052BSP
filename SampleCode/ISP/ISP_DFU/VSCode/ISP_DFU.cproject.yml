@@ -8,7 +8,7 @@ project:
     - setup: Options for ISPDFU
       add-path:
         - .
-        - ../../../../Library/Device/Nuvoton/cm2052/Include
+        - ../../../../Library/Device/Nuvoton/CM2052/Include
         - ../../../../Library/CMSIS/Core/Include
         - ../../../../Library/StdDriver/inc
       misc:
@@ -21,15 +21,17 @@ project:
           Link:
             - --library_type=microlib --map --load_addr_map_info --symbols
             - --info sizes --info totals --strict --summary_stderr --info summarysizes
+          C-CPP:
+            - -Wconditional-uninitialized
   linker:
-    - script: ../../../../Library/Device/Nuvoton/cm2052/Source/ARM/LDROM.sct
+    - script: ../../../../Library/Device/Nuvoton/CM2052/Source/ARM/LDROM.scf
       for-compiler: AC6
   groups:
     - group: CMSIS
       files:
-        - file: ../../../../Library/Device/Nuvoton/cm2052/Source/ARM/startup_cm2052_isp.c
+        - file: ../../startup_CM2052_isp.c
           for-compiler: AC6
-        - file: ../../../../Library/Device/Nuvoton/cm2052/Source/system_cm2052.c
+        - file: ../../../../Library/Device/Nuvoton/CM2052/Source/system_CM2052.c
     - group: User
       files:
         - file: ../descriptors.c

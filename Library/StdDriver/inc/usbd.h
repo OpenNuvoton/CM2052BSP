@@ -519,120 +519,39 @@ extern const S_USBD_INFO_T gsInfo;
   * @details    This function will copy the number of data specified by size and src parameters to the address specified by dest parameter.
   *
   */
-__STATIC_INLINE void USBD_MemCopy(uint8_t *dest, uint8_t *src, uint32_t size)
+__STATIC_INLINE void USBD_MemCopy(uint8_t *dest, const uint8_t *src, uint32_t size)
 {
-    while (size--) *dest++ = *src++;
-}
+    volatile uint8_t *pu8MemCpyDst = (volatile uint8_t *)dest;
+    volatile const uint8_t *pu8MemCpySrc = (volatile const uint8_t *)src;
 
-
-/**
-  * @brief       Set USB endpoint stall state
-  *
-  * @param[in]   epnum  USB endpoint number
-  *
-  *
-  * @details     Set USB endpoint stall state. Endpoint will respond STALL token automatically.
-  *
-  */
-__STATIC_INLINE void USBD_SetStall(uint8_t epnum)
-{
-    uint32_t i;
-
-    for (i = 0ul; i < USBD_MAX_EP; i++)
+    for (uint32_t i = 0ul; i < size; i++)
     {
-        uint32_t u32CfgAddr;
-        uint32_t u32Cfg;
-        u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFG; /* USBD_CFG0 */
-        u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
-
-        if ((u32Cfg & 0xful) == epnum)
-        {
-            u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFGP; /* USBD_CFGP0 */
-            u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
-
-            *((__IO uint32_t *)(u32CfgAddr)) = (u32Cfg | USBD_CFGP_SSTALL);
-            break;
-        }
+        *pu8MemCpyDst = *pu8MemCpySrc;
+        pu8MemCpyDst++;
+        pu8MemCpySrc++;
     }
 }
-
-/**
-  * @brief       Clear USB endpoint stall state
-  *
-  * @param[in]   epnum  USB endpoint number
-  *
-  *
-  * @details     Clear USB endpoint stall state. Endpoint will respond ACK/NAK token.
-  */
-__STATIC_INLINE void USBD_ClearStall(uint8_t epnum)
-{
-    uint32_t i;
-
-    for (i = 0ul; i < USBD_MAX_EP; i++)
-    {
-        uint32_t u32CfgAddr;
-        uint32_t u32Cfg;
-        u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFG; /* USBD_CFG0 */
-        u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
-
-        if ((u32Cfg & 0xful) == epnum)
-        {
-            u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFGP; /* USBD_CFGP0 */
-            u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
-
-            *((__IO uint32_t *)(u32CfgAddr)) = (u32Cfg & ~USBD_CFGP_SSTALL);
-            break;
-        }
-    }
-}
-
-/**
-  * @brief       Get USB endpoint stall state
-  *
-  * @param[in]   epnum  USB endpoint number
-  *
-  * @retval      0      USB endpoint is not stalled.
-  * @retval      Others USB endpoint is stalled.
-  *
-  * @details     Get USB endpoint stall state.
-  *
-  */
-__STATIC_INLINE uint32_t USBD_GetStall(uint8_t epnum)
-{
-    uint32_t u32CfgAddr;
-    uint32_t u32Cfg;
-    uint32_t i;
-
-    for (i = 0ul; i < USBD_MAX_EP; i++)
-    {
-        u32CfgAddr = (uint32_t)(i << 4ul) + (uint32_t)&USBD->EP[0].CFG; /* USBD_CFG0 */
-        u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
-
-        if ((u32Cfg & 0xful) == epnum)
-        {
-            u32CfgAddr = (uint32_t)(i << 4ul) + (uint32_t)&USBD->EP[0].CFGP; /* USBD_CFGP0 */
-            break;
-        }
-    }
-
-    return ((*((__IO uint32_t *)(u32CfgAddr))) & USBD_CFGP_SSTALL);
-}
-
-
-extern volatile uint8_t g_USBD_u8RemoteWakeupEn;
-
 
 typedef void (*VENDOR_REQ)(void);                               /*!< Functional pointer type definition for Vendor class                                    */
 typedef void (*CLASS_REQ)(void);                                /*!< Functional pointer type declaration for USB class request callback handler             */
 typedef void (*SET_INTERFACE_REQ)(uint32_t u32AltInterface);    /*!< Functional pointer type declaration for USB set interface request callback handler     */
 typedef void (*SET_CONFIG_CB)(void);                            /*!< Functional pointer type declaration for USB set configuration request callback handler */
 
+extern uint8_t g_USBD_au8SetupPacket[8];
+extern volatile uint8_t g_USBD_u8RemoteWakeupEn;
+
+extern VENDOR_REQ g_USBD_pfnVendorRequest;
+extern CLASS_REQ g_USBD_pfnClassRequest;
+extern SET_INTERFACE_REQ g_USBD_pfnSetInterface;
+extern SET_CONFIG_CB g_USBD_pfnSetConfigCallback;
+extern uint32_t g_USBD_u32EpStallLock;
 
 /*--------------------------------------------------------------------*/
 void USBD_Open(const S_USBD_INFO_T *param, CLASS_REQ pfnClassReq, SET_INTERFACE_REQ pfnSetInterface);
 void USBD_Start(void);
 void USBD_GetSetupPacket(uint8_t *buf);
 void USBD_ProcessSetupPacket(void);
+void USBD_GetDescriptor(void);
 void USBD_StandardRequest(void);
 void USBD_PrepareCtrlIn(uint8_t pu8Buf[], uint32_t u32Size);
 void USBD_CtrlIn(void);
@@ -642,6 +561,9 @@ void USBD_SwReset(void);
 void USBD_SetVendorRequest(VENDOR_REQ pfnVendorReq);
 void USBD_SetConfigCallback(SET_CONFIG_CB pfnSetConfigCallback);
 void USBD_LockEpStall(uint32_t u32EpBitmap);
+void USBD_SetStall(uint8_t epnum);
+void USBD_ClearStall(uint8_t epnum);
+uint32_t USBD_GetStall(uint8_t epnum);
 
 /** @} end of group USBD_EXPORTED_FUNCTIONS */
 

@@ -28,7 +28,7 @@ void PowerDownFunction(void)
  *
  * @return      None
  *
- * @details     The PB default IRQ, declared in startup_cm2052.s.
+ * @details     The PB default IRQ, declared in startup_CM2052.s.
  */
 void GPB_IRQHandler(void)
 {

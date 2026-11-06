@@ -1,10 +1,9 @@
-/**************************************************************************//**
- * @file     main.c
- * @version  V0.10
- * @brief
- *           Implement USCI_SPI0 Master loop back transfer.
- *           This sample code needs to connect USCI_SPI0_MISO pin and USCI_SPI0_MOSI pin together.
- *           It will compare the received data with transmitted data.
+/***************************************************************************//**
+ * @file    main.c
+ * @version V0.10
+ * @brief   Implement USCI_SPI0 Master loop back transfer.
+ *          This sample code needs to connect USCI_SPI0_MISO pin and USCI_SPI0_MOSI pin together.
+ *          It will compare the received data with transmitted data.
  *
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2019 Nuvoton Technology Corp. All rights reserved.
@@ -15,12 +14,13 @@
 
 #define PLL_CLOCK   FREQ_48MHZ
 #define TEST_COUNT  64
+#define USPI_LOOPBACK_TIMEOUT  (1000000UL)
 
 #if defined (__GNUC__) && !defined(__ARMCC_VERSION) && defined(OS_USE_SEMIHOSTING)
     extern void initialise_monitor_handles(void);
 #endif
 
-/*On M251 C version no USCI_CTL0(SS) pins, you can use this definition to open alternatives*/
+/*On CM2052 C version no USCI_CTL0(SS) pins, you can use this definition to open alternatives*/
 //#define NOT_SUPPORT_SS_PIN
 
 /*Use GPIO PA2 instead of USCI_CTL0(SS) pin*/
@@ -76,7 +76,7 @@ void SYS_Init(void)
     SYS->GPC_MFPH = SYS->GPC_MFPH & ~SYS_GPC_MFPH_PC14MFP_Msk;
     SYS->GPC_MFPH = SYS->GPC_MFPH | SYS_GPC_MFPH_PC14MFP_USCI0_CTL0;
 #else
-    /*M251 C is not supoort USCI_CTL0(SS)*/
+    /*CM2052 C is not supoort USCI_CTL0(SS)*/
     /*Replace the USCI_CTL0(SS) pin with GPIO PA2 */
     SYS->GPA_MFPL = SYS->GPA_MFPL & ~SYS_GPA_MFPL_PA2MFP_Msk;
     GPIO_SetMode(PA, BIT2, GPIO_MODE_OUTPUT);
@@ -99,7 +99,7 @@ void USCI_SPI_Init(void)
 /*---------------------------------------------------------------------------------------------------------*/
 int main(void)
 {
-    uint32_t u32DataCount, u32TestCount, u32Err;
+    uint32_t u32DataCount, u32TestCount, u32Err, u32TimeOutCount;
 
     /* Unlock protected registers */
     SYS_UnlockReg();
@@ -130,6 +130,8 @@ int main(void)
     printf("     Master mode; data width 16 bits.\n");
     printf(" I/O connection:\n");
     printf("     PB.13 USCI_SPI0_MOSI <--> PB.14 USCI_SPI0_MISO \n");
+    printf(" Demo only: this sample requires a physical loopback wire between MOSI and MISO.\n");
+    printf(" Production code should add bounded timeout, peer-state validation, and recovery handling.\n");
 
     printf("\nUSCI_SPI0 Loopback test ");
 
@@ -158,21 +160,36 @@ int main(void)
             putchar('.');
         }
 
-        while (1)
+        while (u32DataCount < TEST_COUNT)
         {
             /* Write to TX register */
             USPI_WRITE_TX(USPI0, g_au32SourceData[u32DataCount]);
 
             /* Check SPI0 busy status */
-            while (USPI_IS_BUSY(USPI0));
+            u32TimeOutCount = USPI_LOOPBACK_TIMEOUT;
+
+            while (USPI_IS_BUSY(USPI0))
+            {
+                if (u32TimeOutCount-- == 0UL)
+                {
+                    u32Err = 1;
+                    break;
+                }
+            }
+
+            if (u32Err != 0UL)
+            {
+                printf("\nUSCI_SPI0 loopback timed out waiting for transfer completion.\n");
+                break;
+            }
 
             /* Read received data */
             g_au32DestinationData[u32DataCount] = USPI_READ_RX(USPI0);
             u32DataCount++;
-
-            if (u32DataCount == TEST_COUNT)
-                break;
         }
+
+        if (u32Err != 0UL)
+            break;
 
         /*  Check the received data */
         for (u32DataCount = 0; u32DataCount < TEST_COUNT; u32DataCount++)

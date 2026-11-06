@@ -17,7 +17,7 @@
  *
  * @return      None
  *
- * @details     The PB default IRQ, declared in startup_cm2052.s.
+ * @details     The PB default IRQ, declared in startup_CM2052.s.
  */
 void GPB_IRQHandler(void)
 {
@@ -44,7 +44,7 @@ void GPB_IRQHandler(void)
  *
  * @return      None
  *
- * @details     The PC default IRQ, declared in startup_cm2052.s.
+ * @details     The PC default IRQ, declared in startup_CM2052.s.
  */
 void GPC_IRQHandler(void)
 {

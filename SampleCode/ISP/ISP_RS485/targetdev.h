@@ -16,7 +16,7 @@ extern "C"
 #endif
 
 // Nuvoton MCU Peripheral Access Layer Header File
-#include "cm2052.h"
+#include "CM2052.h"
 #include "isp_user.h"
 
 #ifdef __cplusplus

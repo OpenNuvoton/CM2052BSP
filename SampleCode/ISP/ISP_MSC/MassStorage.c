@@ -1,14 +1,14 @@
 /******************************************************************************//**
  * @file     MassStorage.c
  * @version  V1.00
- * @brief    CM2052 series USBD driver Sample file
+ * @brief    M252 series USBD driver Sample file
  *
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2021 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 
 /*!<Includes */
-#include "cm2052_user.h"
+#include "CM2052_User.h"
 #include "massstorage.h"
 
 #if 0

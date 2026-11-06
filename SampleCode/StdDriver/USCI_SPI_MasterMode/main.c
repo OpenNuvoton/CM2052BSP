@@ -1,8 +1,7 @@
-/**************************************************************************//**
- * @file     main.c
- * @version  V0.10
- * @brief
- *          Configure USCI_SPI0 as Master mode and demonstrate how to communicate with an off-chip SPI Slave device.
+/***************************************************************************//**
+ * @file    main.c
+ * @version V0.10
+ * @brief   Configure USCI_SPI0 as Master mode and demonstrate how to communicate with an off-chip SPI Slave device.
  *          This sample code needs to work with USCI_SPI_SlaveMode sample code.
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -19,7 +18,7 @@
     extern void initialise_monitor_handles(void);
 #endif
 
-/*On M251 C version no USCI_CTL0(SS) pins, you can use this definition to open alternatives*/
+/*On CM2052 C version no USCI_CTL0(SS) pins, you can use this definition to open alternatives*/
 //#define NOT_SUPPORT_SS_PIN
 
 /*Use GPIO PA2 instead of USCI_CTL0(SS) pin*/
@@ -170,7 +169,7 @@ void SYS_Init(void)
     SYS->GPC_MFPH = SYS->GPC_MFPH & ~SYS_GPC_MFPH_PC14MFP_Msk;
     SYS->GPC_MFPH = SYS->GPC_MFPH | SYS_GPC_MFPH_PC14MFP_USCI0_CTL0;
 #else
-    /*M251 C is not supoort USCI_CTL0(SS)*/
+    /*CM2052 C is not supoort USCI_CTL0(SS)*/
     /*Replace the USCI_CTL0(SS) pin with GPIO PA2 */
     SYS->GPA_MFPL = SYS->GPA_MFPL & ~SYS_GPA_MFPL_PA2MFP_Msk;
     GPIO_SetMode(PA, BIT2, GPIO_MODE_OUTPUT);
@@ -203,7 +202,7 @@ void USCI0_IRQHandler(void)
     /* Waiting for RX is not empty */
     while (USPI_GET_RX_EMPTY_FLAG(USPI0));
 
-    u32TempIndx =  g_u32RxDataCount++;
+    u32TempIndx = g_u32RxDataCount++;
     g_au32DestinationData[u32TempIndx] = USPI_READ_RX(USPI0);
 
     /* Check TX data count */

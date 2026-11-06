@@ -14,7 +14,7 @@
 #include "fmc_user.h"
 #include "dfu_transfer.h"
 
-#define APROM_BLOCK_NUM        ((0x20000/TRANSFER_SIZE)-1)//((0x8000/TRANSFER_SIZE)-1) //CM2052 series minimum size 128KB.
+#define APROM_BLOCK_NUM         ((0x8000/TRANSFER_SIZE)-1) //CM2052 series minimum size 32KB.
 
 unsigned int command_Count = 0;
 

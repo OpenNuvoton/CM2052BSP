@@ -8,7 +8,7 @@ project:
       add-path:
         - ../../../../../Library/CMSIS/Core/Include
         - ../../../../../Library/StdDriver/inc
-        - ../../../../../Library/Device/Nuvoton/cm2052/Include
+        - ../../../../../Library/Device/Nuvoton/CM2052/Include
       misc:
         - for-compiler: AC6
           C:
@@ -19,16 +19,18 @@ project:
           Link:
             - --library_type=microlib --map --load_addr_map_info --symbols
             - --info sizes --info totals --strict --summary_stderr --info summarysizes
+          C-CPP:
+            - -Wconditional-uninitialized
   linker:
-    - script: ../../../../../Library/Device/Nuvoton/cm2052/Source/ARM/LDROM.sct
+    - script: ../../../../../Library/Device/Nuvoton/CM2052/Source/ARM/LDROM.scf
       for-compiler: AC6
   groups:
     - group: CMSIS
       for-compiler: AC6
       files:
-        - file: ../../../../../Library/Device/Nuvoton/cm2052/Source/ARM/startup_cm2052.c
+        - file: ../../../../../Library/Device/Nuvoton/CM2052/Source/ARM/startup_CM2052.c
           for-compiler: AC6
-        - file: ../../../../../Library/Device/Nuvoton/cm2052/Source/system_cm2052.c
+        - file: ../../../../../Library/Device/Nuvoton/CM2052/Source/system_CM2052.c
     - group: Library
       for-compiler: AC6
       files:

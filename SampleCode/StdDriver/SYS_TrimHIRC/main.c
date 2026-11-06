@@ -16,7 +16,7 @@
  *
  * @return      None
  *
- * @details     The RCTrim default IRQ, declared in startup_cm2052.s.
+ * @details     The RCTrim default IRQ, declared in startup_CM2052.s.
  */
 void IRCTRIM_IRQHandler()
 {

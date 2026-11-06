@@ -1,5 +1,5 @@
 ;/******************************************************************************
-; * @file     startup_cm2052.s
+; * @file     startup_CM2052.s
 ; * @version  V0.10
 ; * @brief    CMSIS Cortex-M23 Core Device Startup File for CM2052
 ; *

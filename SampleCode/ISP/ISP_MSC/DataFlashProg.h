@@ -1,6 +1,6 @@
 /******************************************************************************
  * @file     DataFlashProg.h
- * @brief    CM2052 series data flash programming driver header
+ * @brief    M252 series data flash programming driver header
  *
  * @note
  * SPDX-License-Identifier: Apache-2.0

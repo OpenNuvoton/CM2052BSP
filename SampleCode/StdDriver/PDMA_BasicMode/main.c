@@ -32,7 +32,7 @@ uint32_t volatile g_u32IsTestOver = 0;
  *
  * @return      None
  *
- * @details     The DMA default IRQ, declared in startup_cm2052.s.
+ * @details     The DMA default IRQ, declared in startup_CM2052.s.
  */
 void PDMA_IRQHandler(void)
 {

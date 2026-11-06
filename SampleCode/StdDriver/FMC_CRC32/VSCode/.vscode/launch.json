@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "CMSIS_DAP@pyOCD (launch)",
-            "type": "cortex-debug",
+            "type": "cortex-debug-nuvoton",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "executable": "${command:embedded-debug.getApplicationFile}",
@@ -18,26 +18,6 @@
             "overrideLaunchCommands": [
                 "monitor reset halt"
             ]
-        },
-        {
-            "name": "CMSIS_DAP@pyOCD (attach)",
-            "type": "gdbtarget",
-            "request": "attach",
-            "cwd": "${workspaceFolder}/",
-            "program": "out/FMC_CRC32/ARMCLANG/Release/FMC_CRC32.axf",
-            "gdb": "arm-none-eabi-gdb",
-            "initCommands": [
-                ""
-            ],
-            "customResetCommands": [
-                "monitor reset halt"
-            ],
-            "target": {
-                "port": "3333"
-            },
-            "cmsis": {
-                "updateConfiguration": "auto"
-            }
         }
     ]
 }

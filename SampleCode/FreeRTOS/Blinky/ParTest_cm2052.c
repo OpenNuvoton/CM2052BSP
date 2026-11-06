@@ -77,7 +77,7 @@
 #include "task.h"
 
 /* Hardware includes. */
-#include "cm2052.h"
+#include "CM2052.h"
 
 /* Standard demo include. */
 #include "partest.h"

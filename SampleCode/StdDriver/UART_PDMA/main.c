@@ -209,7 +209,7 @@ int32_t main(void)
  *
  * @return      None
  *
- * @details     The DMA default IRQ, declared in startup_cm2052.s.
+ * @details     The DMA default IRQ, declared in startup_CM2052.s.
  */
 void PDMA_IRQHandler(void)
 {
@@ -342,7 +342,7 @@ void UART_PDMATest(void)
  *
  * @return      None
  *
- * @details     The UART1 default IRQ, declared in startup_cm2052.s.
+ * @details     The UART1 default IRQ, declared in startup_CM2052.s.
  */
 void UART1_IRQHandler(void)
 {

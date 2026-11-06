@@ -18,7 +18,7 @@
 #endif
 
 
-/*On M251 C version no USCI_CTL0(CTS) pins, you can use this definition to open alternatives*/
+/*On CM2052 C version no USCI_CTL0(CTS) pins, you can use this definition to open alternatives*/
 //#define NOT_SUPPORT_CTS_PIN
 
 /*Use GPIO PA2 instead of USCI_CTL0(CTS) pin*/
@@ -76,7 +76,7 @@ void SYS_Init(void)
     SYS->GPC_MFPH = SYS->GPC_MFPH & ~SYS_GPC_MFPH_PC14MFP_Msk;
     SYS->GPC_MFPH = SYS->GPC_MFPH | SYS_GPC_MFPH_PC14MFP_USCI0_CTL0;
 #else
-    /*M251 C is not supoort USCI_CTL0(CTS)*/
+    /*CM2052 C is not supoort USCI_CTL0(CTS)*/
     /*Replace the USCI_CTL0(CTS) pin with GPIO PA2 */
     SYS->GPA_MFPL = SYS->GPA_MFPL & ~SYS_GPA_MFPL_PA2MFP_Msk;
 #endif

@@ -22,7 +22,7 @@ volatile uint8_t g_u8WWDTINTCounts;
  *
  * @return      None
  *
- * @details     The WWDT_IRQHandler is default IRQ of WWDT, declared in startup_cm2052.s.
+ * @details     The WWDT_IRQHandler is default IRQ of WWDT, declared in startup_CM2052.s.
  */
 void WWDT_IRQHandler(void)
 {

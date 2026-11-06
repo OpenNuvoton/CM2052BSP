@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
  *****************************************************************************/
+
 #include <stdio.h>
 #include "NuMicro.h"
 
@@ -26,7 +27,7 @@ int32_t  g_FMC_i32ErrCode = eFMC_ERRCODE_SUCCESS; /*!< FMC global error code */
 /**
   * @brief      Set boot source from LDROM or APROM after next software reset
   *
-  * @param[in]  i32BootSrc
+  * @param[in]  u32BootSrc
   *                1: Boot from LDROM
   *                0: Boot from APROM
   *
@@ -36,9 +37,9 @@ int32_t  g_FMC_i32ErrCode = eFMC_ERRCODE_SUCCESS; /*!< FMC global error code */
   *            System Reset Request to reset system.
   *
   */
-void FMC_SetBootSource(int32_t i32BootSrc)
+void FMC_SetBootSource(uint32_t u32BootSrc)
 {
-    FMC_SELECT_NEXT_BOOT(i32BootSrc & 0x1u);
+    FMC_SELECT_NEXT_BOOT(u32BootSrc & 0x1U);
 }
 
 
@@ -110,7 +111,7 @@ int32_t FMC_ReadConfig(uint32_t u32Config[], uint32_t u32Count)
 
     for (i = 0u; i < u32Count; i++)
     {
-        u32Config[i] = FMC_Read(FMC_CONFIG_BASE + i * 4u);
+        u32Config[i] = FMC_Read(FMC_CONFIG_BASE + (i * 4U));
     }
 
     return g_FMC_i32ErrCode;
@@ -131,16 +132,16 @@ int32_t FMC_ReadConfig(uint32_t u32Config[], uint32_t u32Count)
   *           User Configuration is also be page erase. User needs to backup necessary data
   *           before erase User Configuration.
   */
-int32_t FMC_WriteConfig(uint32_t u32Config[], uint32_t u32Count)
+int32_t FMC_WriteConfig(const uint32_t u32Config[], uint32_t u32Count)
 {
     int32_t  ret = 0;
     uint32_t i;
 
     for (i = 0u; i < u32Count; i++)
     {
-        FMC_Write(FMC_CONFIG_BASE + i * 4u, u32Config[i]);
+        FMC_Write(FMC_CONFIG_BASE + (i * 4U), u32Config[i]);
 
-        if (FMC_Read(FMC_CONFIG_BASE + i * 4u) != u32Config[i])
+        if (FMC_Read(FMC_CONFIG_BASE + (i * 4U)) != u32Config[i])
         {
             ret = -1;
         }
@@ -189,7 +190,7 @@ uint32_t  FMC_GetChkSum(uint32_t u32addr, uint32_t u32count)
   */
 uint32_t  FMC_CheckAllOne(uint32_t u32addr, uint32_t u32count)
 {
-    int32_t  tout;
+    int32_t  i32TimeOutCnt;
 
     g_FMC_i32ErrCode = eFMC_ERRCODE_SUCCESS;
 
@@ -206,34 +207,34 @@ uint32_t  FMC_CheckAllOne(uint32_t u32addr, uint32_t u32count)
     FMC->ISPDAT   = u32count;
     FMC->ISPTRG   = FMC_ISPTRG_ISPGO_Msk;
 
-    tout = FMC_TIMEOUT_CHKALLONE;
+    i32TimeOutCnt = FMC_TIMEOUT_CHKALLONE;
 
-    while ((tout-- > 0) && (FMC->ISPSTS & FMC_ISPSTS_ISPBUSY_Msk)) {}
+    while ((i32TimeOutCnt-- > 0) && (FMC->ISPSTS & FMC_ISPSTS_ISPBUSY_Msk)) {}
 
-    if (tout <= 0)
+    if (i32TimeOutCnt <= 0)
     {
         g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
         return READ_ALLONE_CMD_FAIL;
     }
 
-    tout = FMC_TIMEOUT_CHKALLONE;
+    i32TimeOutCnt = FMC_TIMEOUT_CHKALLONE;
 
     do
     {
-        FMC->ISPCMD = FMC_ISPCMD_READ_ALL1;
-        FMC->ISPADDR    = u32addr;
-        FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
+        FMC->ISPCMD  = FMC_ISPCMD_READ_ALL1;
+        FMC->ISPADDR = u32addr;
+        FMC->ISPTRG  = FMC_ISPTRG_ISPGO_Msk;
 
-        while ((tout-- > 0) && (FMC->ISPSTS & FMC_ISPSTS_ISPBUSY_Msk)) {}
+        while ((i32TimeOutCnt-- > 0) && (FMC->ISPSTS & FMC_ISPSTS_ISPBUSY_Msk)) {}
 
-        if (tout <= 0)
+        if (i32TimeOutCnt <= 0)
         {
             g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
             return READ_ALLONE_CMD_FAIL;
         }
     } while (FMC->ISPDAT == 0UL);
 
-    if (FMC->ISPDAT == READ_ALLONE_YES || FMC->ISPDAT == READ_ALLONE_NOT)
+    if ((FMC->ISPDAT == READ_ALLONE_YES) || (FMC->ISPDAT == READ_ALLONE_NOT))
     {
         return FMC->ISPDAT;
     }
@@ -265,7 +266,7 @@ int32_t FMC_Is_XOM_Actived(uint32_t xom_num)
     if (ret >= 0)
     {
         uint32_t u32act;
-        u32act = (((FMC->XOMSTS) & 0xful) & (1ul << xom_num)) >> xom_num;
+        u32act = (((FMC->XOMSTS) & 0xfUL) & (1UL << xom_num)) >> xom_num;
         ret = (int32_t)u32act;
     }
 
@@ -292,7 +293,7 @@ int32_t FMC_Is_XOM_Actived(uint32_t xom_num)
   */
 int32_t FMC_Config_XOM(uint32_t xom_num, uint32_t xom_base, uint8_t xom_page)
 {
-    int32_t  tout;
+    int32_t  i32TimeOutCnt;
     int32_t  ret = 0;
 
     g_FMC_i32ErrCode = eFMC_ERRCODE_SUCCESS;
@@ -310,16 +311,16 @@ int32_t FMC_Config_XOM(uint32_t xom_num, uint32_t xom_base, uint8_t xom_page)
 
     if (ret == 0)
     {
-        FMC->ISPCMD = FMC_ISPCMD_PROGRAM;
-        FMC->ISPADDR = FMC_XOM_BASE + (xom_num * 0x10u);
-        FMC->ISPDAT = xom_base;
-        FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
+        FMC->ISPCMD  = FMC_ISPCMD_PROGRAM;
+        FMC->ISPADDR = FMC_XOM_BASE + (xom_num * 0x10U);
+        FMC->ISPDAT  = xom_base;
+        FMC->ISPTRG  = FMC_ISPTRG_ISPGO_Msk;
 
-        tout = FMC_TIMEOUT_WRITE;
+        i32TimeOutCnt = FMC_TIMEOUT_WRITE;
 
-        while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+        while ((i32TimeOutCnt-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
 
-        if (tout <= 0)
+        if (i32TimeOutCnt <= 0)
         {
             g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
             return -1;
@@ -335,16 +336,16 @@ int32_t FMC_Config_XOM(uint32_t xom_num, uint32_t xom_base, uint8_t xom_page)
 
     if (ret == 0)
     {
-        FMC->ISPCMD = FMC_ISPCMD_PROGRAM;
-        FMC->ISPADDR = FMC_XOM_BASE + (xom_num * 0x10u + 0x04u);
-        FMC->ISPDAT = xom_page;
-        FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
+        FMC->ISPCMD  = FMC_ISPCMD_PROGRAM;
+        FMC->ISPADDR = FMC_XOM_BASE + (xom_num * 0x10U) + 0x04U;
+        FMC->ISPDAT  = xom_page;
+        FMC->ISPTRG  = FMC_ISPTRG_ISPGO_Msk;
 
-        tout = FMC_TIMEOUT_WRITE;
+        i32TimeOutCnt = FMC_TIMEOUT_WRITE;
 
-        while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+        while ((i32TimeOutCnt-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
 
-        if (tout <= 0)
+        if (i32TimeOutCnt <= 0)
         {
             g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
             return -1;
@@ -360,16 +361,16 @@ int32_t FMC_Config_XOM(uint32_t xom_num, uint32_t xom_base, uint8_t xom_page)
 
     if (ret == 0)
     {
-        FMC->ISPCMD = FMC_ISPCMD_PROGRAM;
-        FMC->ISPADDR = FMC_XOM_BASE + (xom_num * 0x10u + 0x08u);
-        FMC->ISPDAT = 0u;
-        FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
+        FMC->ISPCMD  = FMC_ISPCMD_PROGRAM;
+        FMC->ISPADDR = FMC_XOM_BASE + (xom_num * 0x10U) + 0x08U;
+        FMC->ISPDAT  = 0U;
+        FMC->ISPTRG  = FMC_ISPTRG_ISPGO_Msk;
 
-        tout = FMC_TIMEOUT_WRITE;
+        i32TimeOutCnt = FMC_TIMEOUT_WRITE;
 
-        while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+        while ((i32TimeOutCnt-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
 
-        if (tout <= 0)
+        if (i32TimeOutCnt <= 0)
         {
             g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
             return -1;
@@ -405,15 +406,16 @@ int32_t FMC_Config_XOM(uint32_t xom_num, uint32_t xom_base, uint8_t xom_page)
   */
 int32_t FMC_Erase_XOM(uint32_t xom_num)
 {
-    int32_t i32Active, err = 0;
-    int32_t   tout;
+    int32_t i32Active;
+    int32_t i32Err = 0;
+    int32_t i32TimeOutCnt;
 
     g_FMC_i32ErrCode = eFMC_ERRCODE_SUCCESS;
 
     if (xom_num >= 1UL)
     {
         g_FMC_i32ErrCode = eFMC_ERRCODE_INVALID_PARAM;
-        err = -2;
+        i32Err = -2;
     }
 
     i32Active = FMC_Is_XOM_Actived(xom_num);
@@ -422,21 +424,21 @@ int32_t FMC_Erase_XOM(uint32_t xom_num)
     {
         uint32_t u32Addr;
         u32Addr =  FMC->XOMR0STS0;
-        FMC->ISPCMD = FMC_ISPCMD_PAGE_ERASE;
+        FMC->ISPCMD  = FMC_ISPCMD_PAGE_ERASE;
         FMC->ISPADDR = u32Addr;
-        FMC->ISPDAT = 0x55aa03u;
-        FMC->ISPTRG = 0x1u;
+        FMC->ISPDAT  = 0x55aa03U;
+        FMC->ISPTRG  = FMC_ISPTRG_ISPGO_Msk;
 #if ISBEN
         __ISB();
 #endif
-        tout = FMC_TIMEOUT_ERASE;
+        i32TimeOutCnt = FMC_TIMEOUT_ERASE;
 
-        while ((tout-- > 0) && FMC->ISPTRG) {}
+        while ((i32TimeOutCnt-- > 0) && FMC->ISPTRG) {}
 
-        if (tout <= 0)
+        if (i32TimeOutCnt <= 0)
         {
             g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
-            err = -1;
+            i32Err = -1;
         }
 
         /* Check ISPFF flag to know whether erase OK or fail. */
@@ -444,16 +446,16 @@ int32_t FMC_Erase_XOM(uint32_t xom_num)
         {
             FMC->ISPCTL |= FMC_ISPCTL_ISPFF_Msk;
             g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_FAIL;
-            err = -1;
+            i32Err = -1;
         }
     }
     else
     {
         g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_FAIL;
-        err = -1;
+        i32Err = -1;
     }
 
-    return err;
+    return i32Err;
 }
 
 
@@ -475,22 +477,22 @@ int32_t FMC_Erase_XOM(uint32_t xom_num)
 int32_t FMC_Erase(uint32_t u32Addr)
 {
     int32_t  ret = 0;
-    int32_t  tout;
+    int32_t  i32TimeOutCnt;
 
     g_FMC_i32ErrCode = eFMC_ERRCODE_SUCCESS;
 
-    FMC->ISPCMD = FMC_ISPCMD_PAGE_ERASE;
+    FMC->ISPCMD  = FMC_ISPCMD_PAGE_ERASE;
     FMC->ISPADDR = u32Addr;
-    FMC->ISPTRG = 0x1u;
+    FMC->ISPTRG  = FMC_ISPTRG_ISPGO_Msk;
 #if ISBEN
     __ISB();
 #endif
 
-    tout = FMC_TIMEOUT_ERASE;
+    i32TimeOutCnt = FMC_TIMEOUT_ERASE;
 
-    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    while ((i32TimeOutCnt-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
 
-    if (tout <= 0)
+    if (i32TimeOutCnt <= 0)
     {
         g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
         return -1;
@@ -522,25 +524,25 @@ int32_t FMC_Erase(uint32_t u32Addr)
  */
 uint32_t FMC_Read(uint32_t u32Addr)
 {
-    int32_t  tout;
+    int32_t  i32TimeOutCnt;
 
     g_FMC_i32ErrCode = eFMC_ERRCODE_SUCCESS;
-    FMC->ISPCMD = FMC_ISPCMD_READ;
+    FMC->ISPCMD  = FMC_ISPCMD_READ;
     FMC->ISPADDR = u32Addr;
-    FMC->ISPDAT = 0u;
-    FMC->ISPTRG = 0x1u;
+    FMC->ISPDAT  = 0u;
+    FMC->ISPTRG  = FMC_ISPTRG_ISPGO_Msk;
 #if ISBEN
     __ISB();
 #endif
 
-    tout = FMC_TIMEOUT_READ;
+    i32TimeOutCnt = FMC_TIMEOUT_READ;
 
-    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    while ((i32TimeOutCnt-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
 
-    if (tout <= 0)
+    if (i32TimeOutCnt <= 0)
     {
         g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
-        return 0xFFFFFFFF;
+        return 0xFFFFFFFFU;
     }
 
     return FMC->ISPDAT;
@@ -564,22 +566,22 @@ uint32_t FMC_Read(uint32_t u32Addr)
  */
 void FMC_Write(uint32_t u32Addr, uint32_t u32Data)
 {
-    int32_t  tout;
+    int32_t  i32TimeOutCnt;
 
     g_FMC_i32ErrCode = eFMC_ERRCODE_SUCCESS;
-    FMC->ISPCMD = FMC_ISPCMD_PROGRAM;
+    FMC->ISPCMD  = FMC_ISPCMD_PROGRAM;
     FMC->ISPADDR = u32Addr;
-    FMC->ISPDAT = u32Data;
-    FMC->ISPTRG = 0x1u;
+    FMC->ISPDAT  = u32Data;
+    FMC->ISPTRG  = FMC_ISPTRG_ISPGO_Msk;
 #if ISBEN
     __ISB();
 #endif
 
-    tout = FMC_TIMEOUT_WRITE;
+    i32TimeOutCnt = FMC_TIMEOUT_WRITE;
 
-    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    while ((i32TimeOutCnt-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
 
-    if (tout <= 0)
+    if (i32TimeOutCnt <= 0)
     {
         g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
     }
@@ -597,120 +599,182 @@ void FMC_Write(uint32_t u32Addr, uint32_t u32Data)
  * @param[in]  u32Addr  Flash address include APROM, LDROM, Data Flash, and CONFIG
  * @param[in]  pu32Buf  A data pointer is point to a data buffer start address;
  *
- * @retval      0           Write data success
- * @retval     -1           Write data fail, or timeout error
+ * @retval     eFMC_ERRCODE_SUCCESS: Write data success
+ * @retval     eFMC_ERRCODE_INVALID_PARAM: Invalid buffer or address
+ * @retval     eFMC_ERRCODE_CMD_TIMEOUT: Program timeout
+ * @retval     eFMC_ERRCODE_CMD_FAIL: Program failed
  *
  * @details    To program multi-words data into Flash include APROM, LDROM, and CONFIG.
- *             The function needs  to execute in SRAM.
+ *             The function needs to execute in SRAM.
  *
- * @note       g_FMC_i32ErrCode will be set to eFMC_ERRCODE_CMD_TIMEOUT if timeout.
+ * @note       Global error code g_FMC_i32ErrCode
+ *             eFMC_ERRCODE_INVALID_PARAM: Invalid buffer or address
+ *             eFMC_ERRCODE_CMD_TIMEOUT: Program timeout
+ *             eFMC_ERRCODE_CMD_FAIL: Program failed
+ *
+ * @details    If multi-word programming is interrupted during state transition,
+ *             this function restores the write pointer from MPADDR and retries from
+ *             the interrupted position until the chunk is completed or an error occurs.
  *
  */
-uint32_t FMC_Write128(uint32_t u32Addr, uint32_t pu32Buf[])
+int32_t FMC_Write128(uint32_t u32Addr, const uint32_t pu32Buf[])
 {
-    int32_t  tout;
-    uint32_t i, idx, u32OnProg;
+    int32_t  i32TimeOutCnt;
+    uint32_t i;
+    uint32_t u32BufIdx;
+    uint32_t u32OnProg;
+    uint32_t u32MPStatus = 0;
 
     g_FMC_i32ErrCode = eFMC_ERRCODE_SUCCESS;
 
-    idx = 0u;
-    FMC->ISPCMD = FMC_ISPCMD_MULTI_PROG;
+    /* pu32Buf must be valid, u32Addr must be multiple of 16. */
+    if ((pu32Buf == (const uint32_t *)NULL) || (u32Addr % 16U) != 0U)
+    {
+        g_FMC_i32ErrCode = eFMC_ERRCODE_INVALID_PARAM;
+        return eFMC_ERRCODE_INVALID_PARAM;
+    }
+
+    u32BufIdx = 0;
+    FMC->ISPCMD  = FMC_ISPCMD_MULTI_PROG;
     FMC->ISPADDR = u32Addr;
 
     do
     {
-        int32_t err;
-        err = 0;
-        u32OnProg = 1u;
-        FMC->MPDAT0 = pu32Buf[idx + 0u];
-        FMC->MPDAT1 = pu32Buf[idx + 1u];
-        FMC->MPDAT2 = pu32Buf[idx + 2u];
-        FMC->MPDAT3 = pu32Buf[idx + 3u];
-        FMC->ISPTRG = 0x1u;
-        idx += 4u;
+        int32_t i32ErrStatus = (int32_t)eFMC_ERRCODE_SUCCESS;
 
-        for (i = idx; i < 128u / 4u; i += 4u)   /* Max data length is 128 bytes (128/4 words)*/
+        u32OnProg = TRUE;
+        FMC->MPDAT0 = pu32Buf[u32BufIdx];
+        FMC->MPDAT1 = pu32Buf[u32BufIdx + 1U];
+        FMC->MPDAT2 = pu32Buf[u32BufIdx + 2U];
+        FMC->MPDAT3 = pu32Buf[u32BufIdx + 3U];
+        FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
+        u32BufIdx += 4U;
+
+        /* Max data length is FMC_MULTI_WORD_PROG_LEN bytes (FMC_MULTI_WORD_PROG_LEN/4 words) */
+        for (i = u32BufIdx; i < (FMC_MULTI_WORD_PROG_LEN / 4U); i += 4U)
         {
-            __set_PRIMASK(1u); /* Mask interrupt to avoid status check coherence error*/
-
-            tout = FMC_TIMEOUT_WRITE;
+            i32TimeOutCnt = FMC_TIMEOUT_WRITE;
 
             do
             {
-                if ((FMC->MPSTS & FMC_MPSTS_MPBUSY_Msk) == 0u)
+                if ((FMC->MPSTS & FMC_MPSTS_MPBUSY_Msk) == 0U)
                 {
-                    __set_PRIMASK(0u);
-
-                    FMC->ISPADDR = FMC->MPADDR & (~0xful);
-                    idx = (FMC->ISPADDR - u32Addr) / 4u;
-                    err = -1;
+                    /* ISP multi-word programming is interrupted.
+                     * Resume address is derived from MPADDR and retry starts from this position.
+                     */
+                    FMC->ISPADDR = (FMC->MPADDR + 8U) & (~0xFU);
+                    u32BufIdx = (FMC->ISPADDR - u32Addr) / 4U;
+                    i32ErrStatus = eFMC_ERRCODE_PROG_INTERRUPTED;
+                    break;
                 }
 
-            } while ((tout-- > 0) && (FMC->MPSTS & (3u << FMC_MPSTS_D0_Pos)) && (err == 0));
+                if (i32TimeOutCnt-- <= 0)
+                {
+                    g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
+                    return eFMC_ERRCODE_CMD_TIMEOUT;
+                }
+            } while (FMC->MPSTS & (FMC_MPSTS_D0_Msk | FMC_MPSTS_D1_Msk));
 
-            if (tout <= 0)
+            if (i32ErrStatus == (int32_t)eFMC_ERRCODE_SUCCESS)
             {
-                g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
-                return -1;
-            }
-
-            if (err == 0)
-            {
-                /* Update new data for D0 */
+                /* Update new data for D0 and D1 */
                 FMC->MPDAT0 = pu32Buf[i];
-                FMC->MPDAT1 = pu32Buf[i + 1u];
-
-                tout = FMC_TIMEOUT_WRITE;
+                FMC->MPDAT1 = pu32Buf[i + 1U];
+                i32TimeOutCnt = FMC_TIMEOUT_WRITE;
 
                 do
                 {
-                    if ((FMC->MPSTS & FMC_MPSTS_MPBUSY_Msk) == 0u)
+                    if ((FMC->MPSTS & FMC_MPSTS_MPBUSY_Msk) == 0U)
                     {
-                        __set_PRIMASK(0u);
-                        FMC->ISPADDR = FMC->MPADDR & (~0xful);
-                        idx = (FMC->ISPADDR - u32Addr) / 4u;
-                        err = -1;
+                        /* ISP multi-word programming is interrupted.
+                         * Resume address is derived from MPADDR and retry starts from this position.
+                         */
+                        FMC->ISPADDR = (FMC->MPADDR + 8U) & (~0xFU);
+                        u32BufIdx = (FMC->ISPADDR - u32Addr) / 4U;
+                        i32ErrStatus = eFMC_ERRCODE_PROG_INTERRUPTED;
+                        break;
                     }
-                } while ((tout-- > 0) && (FMC->MPSTS & (3u << FMC_MPSTS_D2_Pos)) && (err == 0));
 
-                if (tout <= 0)
-                {
-                    g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
-                    return -1;
-                }
+                    if (i32TimeOutCnt-- <= 0)
+                    {
+                        g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
+                        return eFMC_ERRCODE_CMD_TIMEOUT;
+                    }
+                } while (FMC->MPSTS & (FMC_MPSTS_D2_Msk | FMC_MPSTS_D3_Msk));
 
-                if (err == 0)
+                if (i32ErrStatus == (int32_t)eFMC_ERRCODE_SUCCESS)
                 {
-                    /* Update new data for D2*/
-                    FMC->MPDAT2 = pu32Buf[i + 2u];
-                    FMC->MPDAT3 = pu32Buf[i + 3u];
-                    __set_PRIMASK(0u);
+                    /* Update new data for D2 and D3 */
+                    FMC->MPDAT2 = pu32Buf[i + 2U];
+                    FMC->MPDAT3 = pu32Buf[i + 3U];
+
+                    if ((i + 4U) >= (FMC_MULTI_WORD_PROG_LEN / 4U))
+                    {
+                        i32TimeOutCnt = FMC_TIMEOUT_WRITE;
+
+                        do
+                        {
+                            u32MPStatus = FMC->MPSTS;
+
+                            if (((u32MPStatus & FMC_MPSTS_MPBUSY_Msk) == 0U) && (u32MPStatus & (0xFU << FMC_MPSTS_D0_Pos)))
+                            {
+                                /* Final in-flight data exists but MP engine is interrupted.
+                                 * Recover address and continue in the next do-while iteration.
+                                 */
+                                FMC->ISPADDR = (FMC->MPADDR + 8U) & (~0xFU);
+                                u32BufIdx = (FMC->ISPADDR - u32Addr) / 4U;
+                                i32ErrStatus = eFMC_ERRCODE_PROG_INTERRUPTED;
+                                break;
+                            }
+
+                            if (i32TimeOutCnt-- <= 0)
+                            {
+                                g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
+                                return eFMC_ERRCODE_CMD_TIMEOUT;
+                            }
+                        } while (u32MPStatus & (0xFU << FMC_MPSTS_D0_Pos));
+                    }
                 }
             }
 
-            if (err < 0)
+            if (i32ErrStatus != (int32_t)eFMC_ERRCODE_SUCCESS)
             {
-                return err;
+                if (FMC_GET_FAIL_FLAG())
+                {
+                    FMC_CLR_FAIL_FLAG();
+                    i32ErrStatus = eFMC_ERRCODE_CMD_FAIL;
+                    g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_FAIL;
+                }
+
+                break;
             }
         }
 
-        if (err == 0)
+        /* Only stop retry loop when this chunk is not in interrupted-retry state. */
+        if (i32ErrStatus != (int32_t)eFMC_ERRCODE_PROG_INTERRUPTED)
         {
-            u32OnProg = 0u;
+            u32OnProg = FALSE;
+            i32TimeOutCnt = FMC_TIMEOUT_WRITE;
 
-            tout = FMC_TIMEOUT_WRITE;
-
-            while ((tout-- > 0) && (FMC->ISPSTS & FMC_ISPSTS_ISPBUSY_Msk)) {}
-
-            if (tout <= 0)
+            while (FMC->ISPSTS & FMC_ISPSTS_ISPBUSY_Msk)
             {
-                g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
-                return -1;
+                if (i32TimeOutCnt-- <= 0)
+                {
+                    g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_TIMEOUT;
+                    return eFMC_ERRCODE_CMD_TIMEOUT;
+                }
             }
         }
     } while (u32OnProg);
 
-    return 0;
+    if (FMC_GET_FAIL_FLAG())
+    {
+        FMC_CLR_FAIL_FLAG();
+        g_FMC_i32ErrCode = eFMC_ERRCODE_CMD_FAIL;
+        return eFMC_ERRCODE_CMD_FAIL;
+    }
+
+    return eFMC_ERRCODE_SUCCESS;
 }
 
 /** @} end of group FMC_EXPORTED_FUNCTIONS */

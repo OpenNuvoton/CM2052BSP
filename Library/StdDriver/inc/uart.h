@@ -518,11 +518,11 @@ __STATIC_INLINE void UART_SET_RTS(UART_T *uart)
  */
 __STATIC_INLINE void UART_RESET_RXFIFO(UART_T *uart)
 {
-    volatile int32_t i32Timeout = SystemCoreClock;
+    volatile uint32_t u32Timeout = SystemCoreClock;
 
-    while (!UART_RX_IDLE(uart))
+    while (UART_RX_IDLE(uart) == 0U)
     {
-        if (--i32Timeout <= 0)
+        if (--u32Timeout == 0U)
         {
             break;
         }
@@ -530,11 +530,11 @@ __STATIC_INLINE void UART_RESET_RXFIFO(UART_T *uart)
 
     (uart)->FIFO |= UART_FIFO_RXRST_Msk;
 
-    i32Timeout = SystemCoreClock;
+    u32Timeout = SystemCoreClock;
 
     while (((uart)->FIFO & UART_FIFO_RXRST_Msk) == UART_FIFO_RXRST_Msk)
     {
-        if (--i32Timeout <= 0)
+        if (--u32Timeout == 0U)
         {
             break;
         }
@@ -552,11 +552,11 @@ __STATIC_INLINE void UART_RESET_RXFIFO(UART_T *uart)
  */
 __STATIC_INLINE void UART_RESET_TXFIFO(UART_T *uart)
 {
-    volatile int32_t i32Timeout = SystemCoreClock;
+    volatile uint32_t u32Timeout = SystemCoreClock;
 
-    while (!UART_IS_TX_EMPTY(uart))
+    while (UART_IS_TX_EMPTY(uart) == 0U)
     {
-        if (--i32Timeout <= 0)
+        if (--u32Timeout == 0U)
         {
             break;
         }
@@ -564,11 +564,11 @@ __STATIC_INLINE void UART_RESET_TXFIFO(UART_T *uart)
 
     (uart)->FIFO |= UART_FIFO_TXRST_Msk;
 
-    i32Timeout = SystemCoreClock;
+    u32Timeout = SystemCoreClock;
 
     while (((uart)->FIFO & UART_FIFO_TXRST_Msk) == UART_FIFO_TXRST_Msk)
     {
-        if (--i32Timeout <= 0)
+        if (--u32Timeout == 0U)
         {
             break;
         }
@@ -582,13 +582,13 @@ void UART_DisableInt(UART_T  *uart, uint32_t u32InterruptFlag);
 void UART_EnableFlowCtrl(UART_T *uart);
 void UART_EnableInt(UART_T  *uart, uint32_t u32InterruptFlag);
 void UART_Open(UART_T *uart, uint32_t u32BaudRate);
-uint32_t UART_Read(UART_T *uart, uint8_t pu8RxBuf[], uint32_t u32ReadBytes);
+uint32_t UART_Read(const UART_T *uart, uint8_t pu8RxBuf[], uint32_t u32ReadBytes);
 void UART_SetLine_Config(UART_T *uart, uint32_t u32BaudRate, uint32_t u32DataWidth, uint32_t u32Parity, uint32_t  u32StopBits);
 void UART_SetTimeoutCnt(UART_T *uart, uint32_t u32TOC);
 void UART_SelectIrDAMode(UART_T *uart, uint32_t u32BuadRate, uint32_t u32Direction);
 void UART_SelectRS485Mode(UART_T *uart, uint32_t u32Mode, uint32_t u32Addr);
 void UART_SelectLINMode(UART_T *uart, uint32_t u32Mode, uint32_t u32BreakLength);
-uint32_t UART_Write(UART_T *uart, uint8_t pu8TxBuf[], uint32_t u32WriteBytes);
+uint32_t UART_Write(UART_T *uart, const uint8_t pu8TxBuf[], uint32_t u32WriteBytes);
 void UART_SelectSingleWireMode(UART_T *uart);
 
 

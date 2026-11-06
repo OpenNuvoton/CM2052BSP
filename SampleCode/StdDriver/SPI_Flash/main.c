@@ -1,16 +1,29 @@
-/**************************************************************************//**
- * @file     main.c
- * @version  V0.10
- * @brief    Access SPI flash through SPI interface.
+/***************************************************************************//**
+ * @file    main.c
+ * @version V0.10
+ * @brief   Access SPI flash through SPI interface.
  *
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2019 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include <stdio.h>
+#include <string.h>
+
 #include "NuMicro.h"
 
-#define TEST_NUMBER 1   /* page numbers */
-#define TEST_LENGTH 256 /* length */
+//------------------------------------------------------------------------------
+// *** <<< Use Configuration Wizard in Context Menu >>> ***
+// <o> GPIO Slew Rate Control
+// <0=> Normal <1=> High <2=> Fast
+#define SlewRateMode    1
+// <c1> Enable SPI Optimize
+// <i> Use FIFO mechanism for QSPI RX to maximize throughput
+#define ENABLE_SPI_OPTIMIZE
+// </c>
+// *** <<< end of configuration section >>> ***
+
+#define TEST_NUMBER     1   /* page numbers */
+#define TEST_LENGTH     256 /* length */
 
 #define SPI_FLASH_PORT  SPI0
 
@@ -43,7 +56,7 @@ uint16_t SpiFlash_ReadMidDid(void)
     SPI_SET_SS_HIGH(SPI_FLASH_PORT);
 
     while (!SPI_GET_RX_FIFO_EMPTY_FLAG(SPI_FLASH_PORT))
-        u8RxData[u8IDCnt ++] = SPI_READ_RX(SPI_FLASH_PORT);
+        u8RxData[u8IDCnt++] = SPI_READ_RX(SPI_FLASH_PORT);
 
     return ((u8RxData[4] << 8) | u8RxData[5]);
 }
@@ -195,7 +208,14 @@ void SpiFlash_NormalPageProgram(uint32_t StartAddress, uint8_t *u8DataBuffer)
 
 void SpiFlash_NormalRead(uint32_t StartAddress, uint8_t *u8DataBuffer)
 {
+#if !defined (ENABLE_SPI_OPTIMIZE)
     uint32_t u32Cnt;
+#else
+    uint32_t u32RxDataWord = 64;
+    uint32_t u32RxTmp;
+    uint32_t u32TxDataCount = 0;
+    uint32_t u32RxDataCount = 0;
+#endif
 
     // /CS: active
     SPI_SET_SS_LOW(SPI_FLASH_PORT);
@@ -213,6 +233,32 @@ void SpiFlash_NormalRead(uint32_t StartAddress, uint8_t *u8DataBuffer)
     // clear RX buffer
     SPI_ClearRxFIFO(SPI_FLASH_PORT);
 
+#ifdef ENABLE_SPI_OPTIMIZE
+    SPI_SET_DATA_WIDTH(SPI_FLASH_PORT, 32);
+    SPI_ENABLE_BYTE_REORDER(SPI_FLASH_PORT);
+
+    while (u32RxDataCount < 256)
+    {
+        /* Check TX FULL flag */
+        if ((SPI_GET_TX_FIFO_FULL_FLAG(SPI_FLASH_PORT) == 0) && (u32TxDataCount < u32RxDataWord))
+        {
+            SPI_WRITE_TX(SPI_FLASH_PORT, 0xFFFFFFFF);
+            u32TxDataCount++;
+        }
+
+        /* Check RX EMPTY flag */
+        if (SPI_GET_RX_FIFO_EMPTY_FLAG(SPI_FLASH_PORT) == 0)
+        {
+            u32RxTmp = QSPI_READ_RX(SPI_FLASH_PORT);
+            memcpy(&u8DataBuffer[u32RxDataCount], &u32RxTmp, 4);
+            u32RxDataCount += 4;
+        }
+    }
+
+    SPI_DISABLE_BYTE_REORDER(SPI_FLASH_PORT);
+    SPI_SET_DATA_WIDTH(SPI_FLASH_PORT, 8);
+#else
+
     // read data
     for (u32Cnt = 0; u32Cnt < 256; u32Cnt++)
     {
@@ -222,6 +268,8 @@ void SpiFlash_NormalRead(uint32_t StartAddress, uint8_t *u8DataBuffer)
 
         u8DataBuffer[u32Cnt] = SPI_READ_RX(SPI_FLASH_PORT);
     }
+
+#endif
 
     // wait tx finish
     while (SPI_IS_BUSY(SPI_FLASH_PORT));
@@ -274,6 +322,17 @@ void SYS_Init(void)
     /* Update System Core Clock */
     /* User can use SystemCoreClockUpdate() to calculate SystemCoreClock and CyclesPerUs automatically. */
     SystemCoreClockUpdate();
+
+#if (SlewRateMode == 0)
+    /* Enable SPI0 I/O normal slew rate */
+    GPIO_SetSlewCtl(PA, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_NORMAL);
+#elif (SlewRateMode == 1)
+    /* Enable SPI0 I/O high slew rate */
+    GPIO_SetSlewCtl(PA, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_HIGH);
+#elif (SlewRateMode == 2)
+    /* Enable SPI0 I/O fast slew rate */
+    GPIO_SetSlewCtl(PA, BIT0 | BIT1 | BIT2 | BIT3, GPIO_SLEWCTL_FAST);
+#endif
 }
 
 /* Main */
@@ -301,6 +360,8 @@ int main(void)
     printf("\n+------------------------------------------------------------------------+\n");
     printf("|                      SPI Sample with SPI Flash                         |\n");
     printf("+------------------------------------------------------------------------+\n");
+    printf("Demo only: this sample assumes a supported external SPI flash device and lab validation context.\n");
+    printf("Production code should validate flash identity, add bounded readiness handling, and apply product update policy.\n");
 
     u16ID = SpiFlash_ReadMidDid();
 
@@ -371,7 +432,7 @@ int main(void)
         for (u32ByteCount = 0; u32ByteCount < TEST_LENGTH; u32ByteCount++)
         {
             if (g_au8DestArray[u32ByteCount] != g_au8SrcArray[u32ByteCount])
-                u32Error ++;
+                u32Error++;
         }
     }
 
@@ -383,7 +444,4 @@ int main(void)
     while (1);
 }
 
-
 /*** (C) COPYRIGHT 2019 Nuvoton Technology Corp. ***/
-
-

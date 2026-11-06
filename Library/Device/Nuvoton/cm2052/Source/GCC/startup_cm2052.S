@@ -1,7 +1,7 @@
 /****************************************************************************//**
- * @file     startup_cm2052.S
+ * @file     startup_CM2052.S
  * @version  V1.00
- * @brief    CMSIS Cortex-M23 Core Device Startup File for cm2052
+ * @brief    CMSIS Cortex-M23 Core Device Startup File for CM2052
  *
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.

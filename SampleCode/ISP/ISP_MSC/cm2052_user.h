@@ -1,5 +1,5 @@
 /**************************************************************************//**
- * @file     cm2052.h
+ * @file     CM2052.h
  * @version  V1.0
  * @brief    Peripheral Access Layer Header File
  *
@@ -44,7 +44,7 @@
   *
   * <b>Copyright Notice</b>
   *
-  * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Identifier: Apache-2.0
   * @copyright (C) 2019 Nuvoton Technology Corp. All rights reserved.
   */
 
@@ -189,7 +189,7 @@ typedef enum IRQn
 
 #include <stdint.h>
 #include "core_cm23.h"                      /* Processor and core peripherals             */
-#include "system_cm2052.h"                    /* System Header                              */
+#include "system_CM2052.h"                    /* System Header                              */
 
 /**
  * Initialize the system clock
@@ -644,7 +644,7 @@ typedef volatile uint64_t vu64;       ///< Define 64-bit unsigned volatile data 
 #include "usci_i2c.h"
 #include "usci_spi.h"
 #include "usci_uart.h"
-#include "usbd_user.h"
+#include "usbd_User.h"
 #include "rtc.h"
 #include "crc.h"
 #include "crypto.h"

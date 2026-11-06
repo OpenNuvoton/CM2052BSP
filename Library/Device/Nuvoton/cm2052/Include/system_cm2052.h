@@ -1,5 +1,5 @@
 /**************************************************************************//**
- * @file     system_cm2052.h
+ * @file     system_CM2052.h
  * @version  V0.10
  * @brief    System Setting Header File
  *

@@ -17,7 +17,7 @@
  *
  * @return      None
  *
- * @details     The External INT0 default IRQ, declared in startup_cm2052.s.
+ * @details     The External INT0 default IRQ, declared in startup_CM2052.s.
  */
 void EINT0_IRQHandler(void)
 {
@@ -38,7 +38,7 @@ void EINT0_IRQHandler(void)
  *
  * @return      None
  *
- * @details     The External INT1 default IRQ, declared in startup_cm2052.s.
+ * @details     The External INT1 default IRQ, declared in startup_CM2052.s.
  */
 void EINT1_IRQHandler(void)
 {
@@ -59,7 +59,7 @@ void EINT1_IRQHandler(void)
  *
  * @return      None
  *
- * @details     The External INT2 default IRQ, declared in startup_cm2052.s.
+ * @details     The External INT2 default IRQ, declared in startup_CM2052.s.
  */
 void EINT2_IRQHandler(void)
 {

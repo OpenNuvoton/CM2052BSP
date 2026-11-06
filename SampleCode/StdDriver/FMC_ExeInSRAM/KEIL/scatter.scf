@@ -6,11 +6,11 @@
 
 
 #ifndef FLASH_SIZE
-    #define FLASH_SIZE      0x00020000
+    #define FLASH_SIZE      0x00008000
 #endif
 
 #ifndef SRAM_SIZE
-    #define SRAM_SIZE       0x00004000
+    #define SRAM_SIZE       0x00002000
 #endif
 
 #ifndef STACK_SIZE
@@ -71,8 +71,8 @@ LR_ROM __RO_BASE __RO_SIZE  {                         ; load region size_region
         *.o (RESET, +First)
         *(InRoot$$Sections)
         .ANY (+XO)
-        startup_CM2052.o
-        system_CM2052.o
+        startup_M251.o
+        system_M251.o
     }
 
     RW_RAM __RW_BASE __RW_SIZE  {                     ; RW data

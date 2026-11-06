@@ -128,11 +128,13 @@ int32_t main(void)
         BPWM0 channel 0 waveform of this sample shown below:
 
         |<-        CNR + 1  clk     ->|  CNR + 1 = 399 + 1 CLKs
-        |<-CMR+1 clk ->|  CMR + 1 = 199 + 1 CLKs
+                       |<-CMR+1 clk ->|  CMR + 1 = 199 + 1 CLKs
                                       |<-   CNR + 1  ->|  CNR + 1 = 99 + 1 CLKs
-                                      |<CMR+1>|  CMR + 1 = 39 + 1 CLKs
-			   ______________                _______	        _____BPWM waveform
-			__|      200     |______200_____|   40  |____60__|
+                                               |<CMR+1>|  CMR + 1 = 39 + 1 CLKs
+
+      __                ______________          _______
+        |______200_____|     200      |____60__|   40  |_____BPWM waveform
+
     */
 
     /*

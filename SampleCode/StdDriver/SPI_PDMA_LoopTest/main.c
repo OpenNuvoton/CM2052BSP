@@ -1,10 +1,9 @@
-/**************************************************************************//**
- * @file     main.c
- * @version  V0.10
- * @brief
- *           Demonstrate SPI data transfer with PDMA.
- *           USPI0 will be configured as Master mode and SPI0 will be configured as Slave mode.
- *           Both TX PDMA function and RX PDMA function will be enabled.
+/***************************************************************************//**
+ * @file    main.c
+ * @version V0.10
+ * @brief   Demonstrate SPI data transfer with PDMA.
+ *          USPI0 will be configured as Master mode and SPI0 will be configured as Slave mode.
+ *          Both TX PDMA function and RX PDMA function will be enabled.
  *
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2019 Nuvoton Technology Corp. All rights reserved.
@@ -19,8 +18,9 @@
 #define SPI_SLAVE_RX_DMA_CH                     (3)
 
 #define TEST_COUNT                              (64)
+#define SPI_PDMA_TIMEOUT                        (2UL * SystemCoreClock)
 
-/*On M251 C version no USCI_CTL0(SS) pins, you can use this definition to open alternatives*/
+/*On CM2052 C version no USCI_CTL0(SS) pins, you can use this definition to open alternatives*/
 //#define NOT_SUPPORT_SS_PIN
 
 /*Use GPIO PA2 instead of USCI_CTL0(SS) pin*/
@@ -60,7 +60,7 @@ void SYS_Init(void)
     /* Select UART module clock source as HIRC and UART module clock divider as 1 */
     CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UART0SEL_HIRC, CLK_CLKDIV0_UART0(1));
 
-    /* Select PCLK as the clock source of SPI0 */
+    /* Select PCLK1 as the clock source of SPI0 */
     CLK_SetModuleClock(SPI0_MODULE, CLK_CLKSEL2_SPI0SEL_PCLK1, MODULE_NoMsk);
 
     /* Enable UART peripheral clock */
@@ -98,7 +98,7 @@ void SYS_Init(void)
     SYS->GPC_MFPH = SYS->GPC_MFPH & ~SYS_GPC_MFPH_PC14MFP_Msk;
     SYS->GPC_MFPH = SYS->GPC_MFPH | SYS_GPC_MFPH_PC14MFP_USCI0_CTL0;
 #else
-    /*M251 C is not supoort USCI_CTL0(SS)*/
+    /*CM2052 C is not supoort USCI_CTL0(SS)*/
     /*Replace the USCI_CTL0(SS) pin with GPIO PA2 */
     SYS->GPA_MFPL = SYS->GPA_MFPL & ~SYS_GPA_MFPL_PA2MFP_Msk;
     GPIO_SetMode(PA, BIT2, GPIO_MODE_OUTPUT);
@@ -139,7 +139,7 @@ void SPI_Init(void)
 void SpiLoopTest_WithPDMA(void)
 {
     uint32_t u32DataCount, u32TestCycle;
-    uint32_t u32RegValue, u32Abort;
+    uint32_t u32RegValue, u32Abort, u32TimeOutCount;
     int32_t i32Err;
 
     printf("\nUSPI0/SPI0 Loop test with PDMA ");
@@ -258,6 +258,8 @@ void SpiLoopTest_WithPDMA(void)
         if ((u32TestCycle & 0x1FF) == 0)
             putchar('.');
 
+        u32TimeOutCount = SPI_PDMA_TIMEOUT;
+
         while (1)
         {
             /* Get interrupt status */
@@ -354,6 +356,12 @@ void SpiLoopTest_WithPDMA(void)
                 i32Err = 1;
                 break;
             }
+
+            if (u32TimeOutCount-- == 0UL)
+            {
+                i32Err = 1;
+                break;
+            }
         }
 
         if (i32Err)
@@ -399,6 +407,8 @@ int main(void)
     printf("    USPI0_CLK(PA11)  <--> SPI0_CLK(PD2)\n");
     printf("    USPI0_DAT1(PA9)  <--> SPI0_MISO(PD1)\n");
     printf("    USPI0_DAT0(PA10) <--> SPI0_MOSI(PD0)\n\n");
+    printf("Demo only: this lab sample requires manual wiring and blocking console input.\n");
+    printf("Production code should keep bounded timeout protection, add recovery handling, and use non-interactive startup.\n");
     printf("Please connect USPI0 with SPI0, and press any key to start transmission ...");
     getchar();
     printf("\n");
@@ -415,3 +425,5 @@ int main(void)
 
     while (1);
 }
+
+/*** (C) COPYRIGHT 2019 Nuvoton Technology Corp. ***/

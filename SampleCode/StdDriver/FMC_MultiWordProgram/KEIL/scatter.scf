@@ -5,11 +5,11 @@
 ;      #! armclang -E --target=arm-arm-none-eabi -mcpu=<CPU> -xc -mcmse
 
 #ifndef FLASH_SIZE
-    #define FLASH_SIZE      0x00020000
+    #define FLASH_SIZE      0x00008000
 #endif
 
 #ifndef SRAM_SIZE
-    #define SRAM_SIZE       0x00004000
+    #define SRAM_SIZE       0x00002000
 #endif
 
 #ifndef STACK_SIZE

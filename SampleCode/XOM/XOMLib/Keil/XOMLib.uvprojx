@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>CM2052EN8AE</Device>
           <Vendor>Nuvoton</Vendor>
-          <PackID>Nuvoton.NuMicroCM23_DFP.1.0.3</PackID>
+          <PackID>Nuvoton.NuMicroCM23_DFP.1.0.4</PackID>
           <PackURL>https://github.com/OpenNuvoton/cmsis-packs/raw/master/Nuvoton_DFP/</PackURL>
           <Cpu>IRAM(0x20000000,0x4000) IROM(0x00000000,0x20000) IROM2(0x00100000,0x1000) CPUTYPE("Cortex-M23") CLOCK(12000000)</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -138,7 +138,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2V8M.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -337,10 +337,10 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls></MiscControls>
+              <MiscControls>-Wconditional-uninitialized</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Library\Device\Nuvoton\M251\Include;..\..\..\..\Library\CMSIS\Core\Include;..\..\..\..\Library\StdDriver\inc</IncludePath>
+              <IncludePath>..\..\..\..\Library\Device\Nuvoton\CM2052\Include;..\..\..\..\Library\CMSIS\Core\Include;..\..\..\..\Library\StdDriver\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -396,9 +396,9 @@
   </Targets>
 
   <RTE>
-    <apis/>
-    <components/>
-    <files/>
+    <apis></apis>
+    <components></components>
+    <files></files>
   </RTE>
 
 </Project>

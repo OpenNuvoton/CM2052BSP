@@ -40,9 +40,9 @@ void EADC_Open(EADC_T *eadc, uint32_t u32InputMode)
     eadc->CTL |= EADC_CTL_ADCEN_Msk;
 
     /* Wait for EADC start up completely and ready for conversion */
-    while ((eadc->PWRCTL & EADC_PWRCTL_READY_Msk) == 0)
+    while ((eadc->PWRCTL & EADC_PWRCTL_READY_Msk) == 0UL)
     {
-        if (--u32Delay == 0)
+        if (--u32Delay == 0UL)
         {
             g_EADC_i32ErrCode = EADC_TIMEOUT_ERR;
             break;
@@ -140,15 +140,15 @@ void EADC_SetTriggerDelayTime(EADC_T *eadc, \
   */
 void EADC_SetExtendSampleTime(EADC_T *eadc, uint32_t u32ModuleNum, uint32_t u32ExtendSampleTime)
 {
-    if (u32ModuleNum < 16)
+    if (u32ModuleNum < 16UL)
     {
         ((eadc->SCTL[u32ModuleNum])) &= (~EADC_SCTL_EXTSMPT_Msk);
         ((eadc->SCTL[u32ModuleNum])) |= (u32ExtendSampleTime << EADC_SCTL_EXTSMPT_Pos);
     }
     else
     {
-        ((eadc->SCTL0[u32ModuleNum - 16])) &= (~EADC_SCTL0_EXTSMPT_Msk);
-        ((eadc->SCTL0[u32ModuleNum - 16])) |= (u32ExtendSampleTime << EADC_SCTL0_EXTSMPT_Pos);
+        ((eadc->SCTL0[u32ModuleNum - 16UL])) &= (~EADC_SCTL0_EXTSMPT_Msk);
+        ((eadc->SCTL0[u32ModuleNum - 16UL])) |= (u32ExtendSampleTime << EADC_SCTL0_EXTSMPT_Pos);
     }
 }
 
