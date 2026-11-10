@@ -1,7 +1,5 @@
 /CM2052BSP_Product_SBOM_cdx.json -text
 /CM2052BSP_TestSample_SBOM_cdx.json -text
 /CM2052BSP_SBOM_Manifest.json -text
-/license-evidence/*.md -text
-/pfwang_sbom_es256_public.pem -text
 /Document/SBOM/components/TestSampleView/sca_binary-artifacts.json -text
 /Document/SBOM/components/TestSampleView/sca_hidtransfertest.json -text
