@@ -19,22 +19,72 @@
         }
       ],
       "properties": [
-        { "name": "bsp:file-path", "value": "Tool/HIDTransferTest" },
-        { "name": "bsp:binary-file", "value": "Tool/HIDTransferTest/Debug/HIDTransferTest.exe" },
-        { "name": "bsp:license-file", "value": "Tool/HIDTransferTest/LICENSE.md" },
-        { "name": "bsp:readme-file", "value": "Tool/HIDTransferTest/README.txt" },
-
-        { "name": "integration", "value": "vendored_source_and_binary" },
-        { "name": "bsp:component-origin", "value": "first-party" },
-        { "name": "bsp:platform", "value": "Windows (Win32, x86/x64)" },
-        { "name": "bsp:toolchain", "value": "Microsoft Visual C++ (MSBuild / Visual Studio)" },
-        { "name": "bsp:usb-vid", "value": "0x0416 (Nuvoton Technology Corp.)" },
-        { "name": "bsp:usb-pid-default", "value": "0x5020" },
-        { "name": "bsp:version-evidence", "value": "Tool/HIDTransferTest/HIDTransferTest/version.h (1.1.0); Tool/HIDTransferTest/README.txt (Tool Version: 1.1.0)" },
-        { "name": "bsp:copyright", "value": "Copyright (C) 2010-2026 Nuvoton Technology Corp. All rights reserved." },
-
-        { "name": "bsp:sha256:Tool/HIDTransferTest/Debug/HIDTransferTest.exe", "value": "26f2fda0e6389e4d2cc2fe98bf989a84f1689f040530fb97af0c293222e99406" },
-        { "name": "bsp:sha256:Tool/HIDTransferTest/LICENSE.md",                "value": "0f768967a2d912d44f609abdc0e01bd8d5771174a944da02a29b94d5cfedba77" }
+        {
+          "name": "bsp:file-path",
+          "value": "Tool/HIDTransferTest"
+        },
+        {
+          "name": "bsp:binary-file",
+          "value": "Tool/HIDTransferTest/Debug/HIDTransferTest.exe"
+        },
+        {
+          "name": "bsp:license-file",
+          "value": "Tool/HIDTransferTest/LICENSE.md"
+        },
+        {
+          "name": "bsp:readme-file",
+          "value": "Tool/HIDTransferTest/README.txt"
+        },
+        {
+          "name": "integration",
+          "value": "vendored_source_and_binary"
+        },
+        {
+          "name": "bsp:component-origin",
+          "value": "first-party"
+        },
+        {
+          "name": "bsp:platform",
+          "value": "Windows (Win32, x86/x64)"
+        },
+        {
+          "name": "bsp:toolchain",
+          "value": "Microsoft Visual C++ (MSBuild / Visual Studio)"
+        },
+        {
+          "name": "bsp:usb-vid",
+          "value": "0x0416 (Nuvoton Technology Corp.)"
+        },
+        {
+          "name": "bsp:usb-pid-default",
+          "value": "0x5020"
+        },
+        {
+          "name": "bsp:version-evidence",
+          "value": "Tool/HIDTransferTest/HIDTransferTest/version.h (1.1.0); Tool/HIDTransferTest/README.txt (Tool Version: 1.1.0)"
+        },
+        {
+          "name": "bsp:copyright",
+          "value": "Copyright (C) 2010-2026 Nuvoton Technology Corp. All rights reserved."
+        },
+        {
+          "name": "bsp:sha256:Tool/HIDTransferTest/Debug/HIDTransferTest.exe",
+          "value": "26f2fda0e6389e4d2cc2fe98bf989a84f1689f040530fb97af0c293222e99406"
+        },
+        {
+          "name": "bsp:sha256:Tool/HIDTransferTest/LICENSE.md",
+          "value": "0f768967a2d912d44f609abdc0e01bd8d5771174a944da02a29b94d5cfedba77"
+        },
+        {
+          "name": "bsp:hash-subject",
+          "value": "Tool/HIDTransferTest/Debug/HIDTransferTest.exe"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "26f2fda0e6389e4d2cc2fe98bf989a84f1689f040530fb97af0c293222e99406"
+        }
       ]
     }
   ]

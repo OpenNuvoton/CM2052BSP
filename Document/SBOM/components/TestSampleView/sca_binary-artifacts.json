@@ -1,0 +1,311 @@
+{
+  "components": [
+    {
+      "version": "346a5e5",
+      "name": "SampleCode/StdDriver/FMC_IAP/KEIL/FMC_IAP_LDROM.bin",
+      "bom-ref": "cm2052bsp:file:SampleCode/StdDriver/FMC_IAP/KEIL/FMC_IAP_LDROM.bin",
+      "description": "Distributed binary file; version identifies the containing BSP revision, not an independently established binary version.",
+      "properties": [
+        {
+          "value": "SampleCode/StdDriver/FMC_IAP/KEIL/FMC_IAP_LDROM.bin",
+          "name": "bsp:file-path"
+        },
+        {
+          "value": "test-sample",
+          "name": "bsp:sbom-category"
+        },
+        {
+          "value": "346a5e5f68260e29493df8a78f52ea9af281d77c",
+          "name": "bsp:source-commit"
+        },
+        {
+          "value": "source-based-assessment",
+          "name": "bsp:license-status"
+        },
+        {
+          "value": "SampleCode/StdDriver/FMC_IAP/FMC_IAP_LDROM.c",
+          "name": "bsp:license-evidence"
+        },
+        {
+          "value": "Based on accompanying source SPDX declarations and repository layout/build configuration; binary reproducibility and complete linked-content licensing not verified.",
+          "name": "bsp:license-assessment-basis"
+        }
+      ],
+      "type": "file",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "acd868c82271be4da30bc901b991a944456d25393f90a0ca73f6d1656e97749d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "version": "346a5e5",
+      "name": "SampleCode/StdDriver/FMC_IAP/VSCode/bin/ARMCLANG/FMC_IAP_LDROM.bin",
+      "bom-ref": "cm2052bsp:file:SampleCode/StdDriver/FMC_IAP/VSCode/bin/ARMCLANG/FMC_IAP_LDROM.bin",
+      "description": "Distributed binary file; version identifies the containing BSP revision, not an independently established binary version.",
+      "properties": [
+        {
+          "value": "SampleCode/StdDriver/FMC_IAP/VSCode/bin/ARMCLANG/FMC_IAP_LDROM.bin",
+          "name": "bsp:file-path"
+        },
+        {
+          "value": "test-sample",
+          "name": "bsp:sbom-category"
+        },
+        {
+          "value": "346a5e5f68260e29493df8a78f52ea9af281d77c",
+          "name": "bsp:source-commit"
+        },
+        {
+          "value": "source-based-assessment",
+          "name": "bsp:license-status"
+        },
+        {
+          "value": "SampleCode/StdDriver/FMC_IAP/FMC_IAP_LDROM.c",
+          "name": "bsp:license-evidence"
+        },
+        {
+          "value": "Based on accompanying source SPDX declarations and repository layout/build configuration; binary reproducibility and complete linked-content licensing not verified.",
+          "name": "bsp:license-assessment-basis"
+        }
+      ],
+      "type": "file",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "64a62e9253726cc35f71a98db714ac57e4d6da0fdb86ecc16b22059408122bbd"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "version": "346a5e5",
+      "name": "SampleCode/StdDriver/FMC_IAP/VSCode/bin/GNUC/FMC_IAP_LDROM.bin",
+      "bom-ref": "cm2052bsp:file:SampleCode/StdDriver/FMC_IAP/VSCode/bin/GNUC/FMC_IAP_LDROM.bin",
+      "description": "Distributed binary file; version identifies the containing BSP revision, not an independently established binary version.",
+      "properties": [
+        {
+          "value": "SampleCode/StdDriver/FMC_IAP/VSCode/bin/GNUC/FMC_IAP_LDROM.bin",
+          "name": "bsp:file-path"
+        },
+        {
+          "value": "test-sample",
+          "name": "bsp:sbom-category"
+        },
+        {
+          "value": "346a5e5f68260e29493df8a78f52ea9af281d77c",
+          "name": "bsp:source-commit"
+        },
+        {
+          "value": "source-based-assessment",
+          "name": "bsp:license-status"
+        },
+        {
+          "value": "SampleCode/StdDriver/FMC_IAP/FMC_IAP_LDROM.c",
+          "name": "bsp:license-evidence"
+        },
+        {
+          "value": "Based on accompanying source SPDX declarations and repository layout/build configuration; binary reproducibility and complete linked-content licensing not verified.",
+          "name": "bsp:license-assessment-basis"
+        }
+      ],
+      "type": "file",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3e4aec3e3913f03fd97680def8cad731a10d8fc502fa3091e5241f838ffa0690"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "version": "346a5e5",
+      "name": "SampleCode/XOM/XOMLib/lib/libXOMLib.a",
+      "bom-ref": "cm2052bsp:file:SampleCode/XOM/XOMLib/lib/libXOMLib.a",
+      "description": "Distributed binary file; version identifies the containing BSP revision, not an independently established binary version.",
+      "properties": [
+        {
+          "value": "SampleCode/XOM/XOMLib/lib/libXOMLib.a",
+          "name": "bsp:file-path"
+        },
+        {
+          "value": "test-sample",
+          "name": "bsp:sbom-category"
+        },
+        {
+          "value": "346a5e5f68260e29493df8a78f52ea9af281d77c",
+          "name": "bsp:source-commit"
+        },
+        {
+          "value": "source-based-assessment",
+          "name": "bsp:license-status"
+        },
+        {
+          "value": "SampleCode/XOM/XOMLib/Keil/xomlib.c; SampleCode/XOM/XOMLib/Keil/XOMLib.uvprojx; SampleCode/XOM/XOMLib/VSCode/XOMLib/xomlib_ARMCLANG.c; SampleCode/XOM/XOMLib/VSCode/XOMLib/xomlib_GNUC.c; SampleCode/XOM/XOMLib/VSCode/XOMLib/XOMLib.cproject.yml",
+          "name": "bsp:license-evidence"
+        },
+        {
+          "value": "Based on accompanying source SPDX declarations and repository layout/build configuration; binary reproducibility and complete linked-content licensing not verified.",
+          "name": "bsp:license-assessment-basis"
+        }
+      ],
+      "type": "file",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "291531c4d2190e954d2ae49e9b851a68d455411dfd41952de97e92a744fc83e2"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "version": "346a5e5",
+      "name": "SampleCode/XOM/XOMLib/lib/XOMLib.a",
+      "bom-ref": "cm2052bsp:file:SampleCode/XOM/XOMLib/lib/XOMLib.a",
+      "description": "Distributed binary file; version identifies the containing BSP revision, not an independently established binary version.",
+      "properties": [
+        {
+          "value": "SampleCode/XOM/XOMLib/lib/XOMLib.a",
+          "name": "bsp:file-path"
+        },
+        {
+          "value": "test-sample",
+          "name": "bsp:sbom-category"
+        },
+        {
+          "value": "346a5e5f68260e29493df8a78f52ea9af281d77c",
+          "name": "bsp:source-commit"
+        },
+        {
+          "value": "source-based-assessment",
+          "name": "bsp:license-status"
+        },
+        {
+          "value": "SampleCode/XOM/XOMLib/Keil/xomlib.c; SampleCode/XOM/XOMLib/Keil/XOMLib.uvprojx; SampleCode/XOM/XOMLib/VSCode/XOMLib/xomlib_ARMCLANG.c; SampleCode/XOM/XOMLib/VSCode/XOMLib/xomlib_GNUC.c; SampleCode/XOM/XOMLib/VSCode/XOMLib/XOMLib.cproject.yml",
+          "name": "bsp:license-evidence"
+        },
+        {
+          "value": "Based on accompanying source SPDX declarations and repository layout/build configuration; binary reproducibility and complete linked-content licensing not verified.",
+          "name": "bsp:license-assessment-basis"
+        }
+      ],
+      "type": "file",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f95e4b370369576073b7b74e6048fb5d5011220666c5e472244f1c25ee72a439"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "version": "346a5e5",
+      "name": "SampleCode/XOM/XOMLib/lib/XOMLib.lib",
+      "bom-ref": "cm2052bsp:file:SampleCode/XOM/XOMLib/lib/XOMLib.lib",
+      "description": "Distributed binary file; version identifies the containing BSP revision, not an independently established binary version.",
+      "properties": [
+        {
+          "value": "SampleCode/XOM/XOMLib/lib/XOMLib.lib",
+          "name": "bsp:file-path"
+        },
+        {
+          "value": "test-sample",
+          "name": "bsp:sbom-category"
+        },
+        {
+          "value": "346a5e5f68260e29493df8a78f52ea9af281d77c",
+          "name": "bsp:source-commit"
+        },
+        {
+          "value": "source-based-assessment",
+          "name": "bsp:license-status"
+        },
+        {
+          "value": "SampleCode/XOM/XOMLib/Keil/xomlib.c; SampleCode/XOM/XOMLib/Keil/XOMLib.uvprojx; SampleCode/XOM/XOMLib/VSCode/XOMLib/xomlib_ARMCLANG.c; SampleCode/XOM/XOMLib/VSCode/XOMLib/xomlib_GNUC.c; SampleCode/XOM/XOMLib/VSCode/XOMLib/XOMLib.cproject.yml",
+          "name": "bsp:license-evidence"
+        },
+        {
+          "value": "Based on accompanying source SPDX declarations and repository layout/build configuration; binary reproducibility and complete linked-content licensing not verified.",
+          "name": "bsp:license-assessment-basis"
+        }
+      ],
+      "type": "file",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d4de2884ad4a6d975732fc5424aaf0c75c73012bb76c55b9a075bbc095fd9bdb"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tool/HIDTransferTest/HIDTransferTest/hid.lib",
+      "bom-ref": "cm2052bsp:file:Tool/HIDTransferTest/HIDTransferTest/hid.lib",
+      "description": "COFF import library for HID.DLL. Exact originating SDK/DDK release is not established.",
+      "properties": [
+        {
+          "value": "Tool/HIDTransferTest/HIDTransferTest/hid.lib",
+          "name": "bsp:file-path"
+        },
+        {
+          "value": "test-sample",
+          "name": "bsp:sbom-category"
+        },
+        {
+          "value": "346a5e5f68260e29493df8a78f52ea9af281d77c",
+          "name": "bsp:source-commit"
+        },
+        {
+          "name": "bsp:version-evidence",
+          "value": "No verifiable version identified; no VERSIONINFO resource or originating SDK/DDK release evidence. Exact file identity is recorded by SHA-256."
+        }
+      ],
+      "type": "file",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "22bcccaed9b092f4ab2aa12e1471959ed1847296f350bb6d7390b0718fdb5ca4"
+        }
+      ],
+      "purl": "pkg:generic/hid-import-library"
+    }
+  ]
+}
